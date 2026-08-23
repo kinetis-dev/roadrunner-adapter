@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
+         bootstrap="vendor/autoload.php"
+         colors="true"
+         cacheDirectory=".phpunit.cache">
+    <testsuites>
+        <testsuite name="Kinetis\RoadRunnerAdapter">
+            <directory>tests</directory>
+        </testsuite>
+    </testsuites>
+    <php>
+        <!--
+            RoadRunnerAdapter logs a malformed request body through
+            error_log() — STDERR by default — on the way to its 400, the
+            same as BrefLambdaAdapter. Infection's InitialTestsRunner stops
+            the baseline PHPUnit run on the first byte it sees on STDERR,
+            so that expected line would kill every Infection run here.
+            This redirect affects this PHPUnit run only; a real
+            deployment's error_log() destination is its own runtime's
+            business.
+        -->
+        <ini name="error_log" value="/dev/null"/>
+    </php>
+    <source>
+        <include>
+            <directory>src</directory>
+        </include>
+    </source>
+</phpunit>
