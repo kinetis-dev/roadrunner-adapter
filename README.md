@@ -18,12 +18,16 @@
 
 ---
 
+Part of [Kinetis](https://kinetis.dev/), a non-blocking PHP framework for
+API-first applications, developed in the
+[kinetis-dev/kinetis](https://github.com/kinetis-dev/kinetis) monorepo.
+
 Speaks RoadRunner's own Goridge/`PSR7Worker` protocol — a persistent
 worker loop, structurally the closest of Kinetis's four runtime adapters
 to `FrankenPhpAdapter`'s, but built on RoadRunner's own PHP worker
 library rather than a raw request-handling function. Converts to/from
 PSR-7, including `multipart/form-data`/`application/x-www-form-urlencoded`
-support parsed in userland — the same shape `kinetis/bref-adapter` needs
+support parsed in userland — the same shape [`kinetis/bref-adapter`](https://github.com/kinetis-dev/bref-adapter) needs
 for the identical reason: a request body here is one in-memory string
 with no live `php://input` behind it.
 
@@ -54,7 +58,7 @@ own env var, default 2 MiB) — the two don't automatically agree; set
 `MAX_BODY_SIZE=10485760` alongside `max_request_size: 10` above if you
 want one consistent limit.
 
-Requires PHP 8.4+ and `kinetis/framework`. See
+Requires PHP 8.4+ and [`kinetis/framework`](https://github.com/kinetis-dev/framework). See
 [Runtime Adapters](https://kinetis.dev/docs/runtime-adapters.html) for
 the full reasoning — why `raw_body: true` and `max_request_size` matter,
 what's mapped and how, and the two disclosed, environment-caused
