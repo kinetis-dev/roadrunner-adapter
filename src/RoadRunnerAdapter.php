@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Kinetis\RoadRunnerAdapter;
 
+use Kinetis\Http\MediaType;
 use Kinetis\Http\Middleware\Exception\BodyTooLargeException;
 use Kinetis\Http\Responses\ErrorResponse;
 use Kinetis\RoadRunnerAdapter\Exception\MalformedRequestBodyException;
@@ -259,7 +260,7 @@ final class RoadRunnerAdapter implements RuntimeAdapterInterface
     {
         $contentType = $request->getHeaderLine('Content-Type');
 
-        if (!self::isFormEncoded($contentType)) {
+        if (!MediaType::isFormEncoded($contentType)) {
             return $request;
         }
 
@@ -268,17 +269,11 @@ final class RoadRunnerAdapter implements RuntimeAdapterInterface
 
         $body = (string) $request->getBody();
 
-        [$parsedBody, $uploadedFiles] = self::isMultipart($contentType)
+        [$parsedBody, $uploadedFiles] = MediaType::isMultipartFormData($contentType)
             ? self::parseMultipart($contentType, $body)
             : self::parseUrlEncoded($body);
 
         return $request->withParsedBody($parsedBody)->withUploadedFiles($uploadedFiles);
-    }
-
-    private static function isFormEncoded(string $contentType): bool
-    {
-        return self::isMultipart($contentType)
-            || str_starts_with($contentType, 'application/x-www-form-urlencoded');
     }
 
     /**
@@ -354,11 +349,6 @@ final class RoadRunnerAdapter implements RuntimeAdapterInterface
         }
 
         return 2_097_152;
-    }
-
-    private static function isMultipart(string $contentType): bool
-    {
-        return str_starts_with($contentType, 'multipart/form-data');
     }
 
     /**

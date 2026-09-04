@@ -170,6 +170,66 @@ final class RoadRunnerAdapterTest extends TestCase
         self::assertSame(['q' => 'kinetis', 'page' => '2'], $captured->getParsedBody());
     }
 
+    /**
+     * A media type's type and subtype are case-insensitive (RFC 9110
+     * §8.3.1), so this header names a form body and picks the multipart
+     * parser — the choice between the two parsers is this adapter's own,
+     * and a case-sensitive comparison would send these bytes to
+     * parse_str() instead.
+     */
+    public function test_a_mixed_case_form_content_type_is_parsed(): void
+    {
+        $boundary = 'KinetisTestBoundary';
+        $body = "--{$boundary}\r\n"
+            . "Content-Disposition: form-data; name=\"name\"\r\n\r\n"
+            . "Alon\r\n"
+            . "--{$boundary}--\r\n";
+
+        $request = new ServerRequest(
+            'POST',
+            '/avatars',
+            ['Content-Type' => "Multipart/Form-Data; boundary={$boundary}"],
+            $body,
+        );
+
+        $captured = null;
+        RoadRunnerAdapter::handle($request, static function (ServerRequestInterface $r) use (&$captured): Response {
+            $captured = $r;
+
+            return new Response(200);
+        });
+
+        self::assertInstanceOf(ServerRequestInterface::class, $captured);
+        self::assertSame(['name' => 'Alon'], $captured->getParsedBody());
+    }
+
+    /**
+     * A longer media type that merely begins with a form one is a
+     * different media type: the body stays raw bytes, and none of the
+     * form-body machinery (the raw_body check, the size cap, either
+     * parser) runs for it.
+     */
+    public function test_a_content_type_that_only_looks_like_a_form_type_is_left_untouched(): void
+    {
+        $request = new ServerRequest(
+            'POST',
+            '/search',
+            ['Content-Type' => 'application/x-www-form-urlencodedevil'],
+            'q=kinetis',
+        );
+
+        $captured = null;
+        RoadRunnerAdapter::handle($request, static function (ServerRequestInterface $r) use (&$captured): Response {
+            $captured = $r;
+
+            return new Response(200);
+        });
+
+        self::assertInstanceOf(ServerRequestInterface::class, $captured);
+        self::assertNull($captured->getParsedBody());
+        self::assertSame('q=kinetis', (string) $captured->getBody());
+    }
+
     public function test_a_multipart_body_with_no_usable_boundary_is_a_clean_400_and_the_handler_never_runs(): void
     {
         $request = new ServerRequest(
