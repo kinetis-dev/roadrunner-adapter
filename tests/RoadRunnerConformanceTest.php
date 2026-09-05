@@ -16,13 +16,12 @@ use PHPUnit\Framework\SkippedTestSuiteError;
 /**
  * The shared conformance suite against RoadRunnerAdapter under a real,
  * spawned `rr serve` process — see {@see RoadRunnerDriver} for what that
- * proves and what it doesn't. Skips cleanly, for the whole class, when
- * no real `rr` binary is present (see {@see RoadRunnerDriver::binaryPath()})
- * rather than failing every test with a confusing "no such file" error —
- * this repo's standard `php:8.4-cli-alpine` toolchain image has neither
- * the binary nor `ext-sockets` loaded (compilable under Alpine, just not
- * worth doing in this image; see docs/runtime-adapters.md), so this
- * suite is exercised for real only where both are actually provided.
+ * proves and what it doesn't.
+ *
+ * The `rr` binary is what gates it: it is fetched with
+ * `vendor/bin/rr get-binary` and never committed, so a checkout that has
+ * not fetched one skips this class cleanly rather than failing every
+ * test with a confusing "no such file" error.
  */
 final class RoadRunnerConformanceTest extends RuntimeAdapterConformanceTestCase
 {
@@ -51,53 +50,6 @@ final class RoadRunnerConformanceTest extends RuntimeAdapterConformanceTestCase
     protected function driver(): RuntimeAdapterDriver
     {
         return self::$driver ?? throw new LogicException('driver not started');
-    }
-
-    /**
-     * The shared suite's own `test_cookies_reach_both_the_cookie_header_and_cookie_params()`
-     * is excluded from `integration.yml`'s gate — see
-     * `RoadRunnerAdapter`'s own class docblock — because RoadRunner
-     * represents cookies as a Go map on the way to PHP, and Go
-     * randomizes map iteration order by design; that test asserts exact
-     * key order, which this genuinely doesn't preserve. This is the
-     * order-insensitive replacement: it proves the values themselves —
-     * both cookies, correctly named, correctly valued — still survive
-     * every time, which is the actual guarantee worth gating on.
-     *
-     * Checked at both layers, not just `cookieParams` — the PSR-7
-     * `Cookie` header text itself is asserted too. `cookieParams` is
-     * this framework's own derivation from that header; a bug in the
-     * derivation, independent of RoadRunner's own reordering, could in
-     * principle make the two disagree, and only checking the derived
-     * value would miss it.
-     */
-    public function test_cookie_values_survive_regardless_of_order(): void
-    {
-        $outcome = $this->driver()->dispatch(
-            new WireRequest(cookies: ['kinetis_session=abc123', 'theme=dark']),
-            ResponseSpec::json(200, '{"ok":true}'),
-        );
-
-        if ($outcome->response instanceof AdapterRejection) {
-            self::fail("The adapter rejected the request: {$outcome->response->exceptionClass}: {$outcome->response->message}");
-        }
-
-        self::assertNotNull($outcome->observed, 'the handler never ran');
-
-        $cookieParams = $outcome->observed->cookieParams;
-        ksort($cookieParams);
-        self::assertSame(['kinetis_session' => 'abc123', 'theme' => 'dark'], $cookieParams);
-
-        $rawCookieHeader = $outcome->observed->header('Cookie');
-        self::assertCount(
-            1,
-            $rawCookieHeader,
-            'RoadRunnerAdapter::foldRepeatedHeaders() must have joined every Cookie header line into one',
-        );
-
-        $rawPairs = array_map(trim(...), explode(';', $rawCookieHeader[0]));
-        sort($rawPairs);
-        self::assertSame(['kinetis_session=abc123', 'theme=dark'], $rawPairs);
     }
 
     /**
@@ -213,9 +165,9 @@ final class RoadRunnerConformanceTest extends RuntimeAdapterConformanceTestCase
     }
 
     /**
-     * The other half of the size-limit defense {@see \Kinetis\RoadRunnerAdapter\RoadRunnerAdapter::assertFormBodyWithinLimit()}'s
-     * own docblock discloses it cannot cover: a body with no declared
-     * `Content-Length` at all. RoadRunner's own `http.max_request_size`
+     * The half of the size-limit defense `RoadRunnerAdapter`'s own class
+     * docblock discloses it cannot cover: the read itself, and so a body
+     * with no declared `Content-Length` at all. RoadRunner's own `http.max_request_size`
      * (see {@see RoadRunnerDriver::start()}) is the real defense there —
      * this proves it actually rejects an oversized chunked body rather
      * than merely being documented as if it would. A separate driver

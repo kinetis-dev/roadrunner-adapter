@@ -41,10 +41,10 @@ composer require kinetis/roadrunner-adapter
 ```
 
 **Two RoadRunner configuration settings are required**, not optional —
-`http.raw_body: true`, and `http.max_request_size` to actually bound how
-large a form body can grow before this adapter parses it (there's no
-SAPI here to enforce `post_max_size`, and RoadRunner's own default is a
-generous 1000 MB):
+`http.raw_body: true`, and `http.max_request_size` to bound a body whose
+length was never declared, which nothing at the PHP layer can (there's
+no SAPI here to enforce `post_max_size`, and RoadRunner's own default is
+a generous 1000 MB):
 
 ```yaml
 http:
@@ -53,18 +53,37 @@ http:
   max_request_size: 10
 ```
 
+A missing `raw_body: true` doesn't fail silently: this adapter reads the
+flag RoadRunner stamps on every request and refuses one RoadRunner
+already parsed. It refuses a request that doesn't carry that flag at
+all, too — that means the setting can't be verified, not that it's on.
+
 `max_request_size` is a separate ceiling from `MAX_BODY_SIZE` (Kinetis's
 own env var, default 2 MiB) — the two don't automatically agree; set
 `MAX_BODY_SIZE=10485760` alongside `max_request_size: 10` above if you
-want one consistent limit.
+want one consistent limit. Both sit alongside
+`Kinetis\Http\Form\FormLimits`, which bounds how *complicated* a form
+may be (input variables counted from the raw body, file parts, nesting
+depth, multipart parts including unnamed ones, and header lines per
+part) with the same numbers core applies under every other runtime, and
+alongside `Kinetis\Http\Form\MultipartEnvelope`, which settles what a
+multipart body may say on the wire — delimiters, transfer encodings,
+metadata and nesting — before `riverline/multipart-parser` expands it,
+so a form means the same thing here as it does under FrankenPHP.
+
+`X-Forwarded-Proto` is read only from a peer listed in `TRUSTED_PROXIES`.
+A directly reachable `rr serve` with no policy configured reads it from
+nobody, which is the safe default for that deployment — the header is an
+ordinary one any client can send.
 
 Requires PHP 8.4+ and [`kinetis/framework`](https://github.com/kinetis-dev/framework). See
 [Runtime Adapters](https://kinetis.dev/docs/runtime-adapters.html) for
 the full reasoning — why `raw_body: true` and `max_request_size` matter,
-what's mapped and how, and the two disclosed, environment-caused
-conformance gaps (a purely-numeric header name; occasional cookie
-reordering) that are upstream RoadRunner behavior, not something this
-package's own code can recover from.
+what's mapped and how, and the two environment-caused limitations (a
+purely-numeric header name; cookie order) that are upstream RoadRunner
+behavior rather than something this package's own code can recover from.
+Both are declared to the shared runtime conformance suite and asserted
+there in both directions, not skipped.
 
 ## License
 
