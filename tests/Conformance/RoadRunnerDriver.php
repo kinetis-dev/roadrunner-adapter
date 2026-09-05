@@ -26,10 +26,11 @@ use RuntimeException;
  * SuperglobalsDriver — real HTTP/1.1 bytes over a real socket — rather
  * than an in-process call.
  *
- * {@see requireRealBinary()} is the one thing every test using this
- * driver must call first: it needs a real `rr` binary, fetched via
- * `vendor/bin/rr get-binary` (spiral/roadrunner-cli, a require-dev
- * dependency), which is not present by default and is never committed.
+ * {@see isBinaryAvailable()} is the one thing every test using this
+ * driver checks first: it needs a real `rr` binary at
+ * {@see binaryPath()}, fetched via `vendor/bin/rr get-binary`
+ * (spiral/roadrunner-cli, a require-dev dependency), which is not
+ * present by default and is never committed.
  */
 final class RoadRunnerDriver implements RuntimeAdapterDriver
 {
@@ -115,7 +116,15 @@ final class RoadRunnerDriver implements RuntimeAdapterDriver
             [1 => ['pipe', 'w'], 2 => ['pipe', 'w']],
             $pipes,
             null,
-            [...getenv(), 'KINETIS_CONFORMANCE_STATE_DIR' => $this->stateDir],
+            [
+                ...getenv(),
+                'KINETIS_CONFORMANCE_STATE_DIR' => $this->stateDir,
+                // Loopback only — the peer this driver connects from and
+                // nothing else, so the shared forwarded-identity case
+                // runs against a real trusted edge rather than a policy
+                // that trusts everything.
+                'TRUSTED_PROXIES' => '127.0.0.1/32,::1/128',
+            ],
         );
 
         if ($server === false) {
@@ -283,17 +292,55 @@ final class RoadRunnerDriver implements RuntimeAdapterDriver
     public function unparseableFormRequest(): WireRequest
     {
         // http.raw_body: true (required — see RoadRunnerAdapter's class
-        // docblock) means RoadRunner's own size/parsing limits never see
-        // this body at all; the parse failure is this adapter's own
-        // userland riverline/multipart-parser rejecting a body with no
-        // usable boundary — the same trigger kinetis/bref-adapter's
-        // LambdaDriver uses, not SuperglobalsDriver's post_max_size one.
+        // docblock) means RoadRunner's own parsing never sees this body
+        // at all; the failure is this adapter's own parser finding the
+        // declared boundary nowhere in it.
         return new WireRequest(
             'POST',
             '/',
             headers: [['Content-Type', 'multipart/form-data; boundary=----XYZ']],
             body: 'not a real multipart body at all',
         );
+    }
+
+    #[\Override]
+    public function expectedScheme(): string
+    {
+        // A plain listener; the conformance server terminates no TLS.
+        return 'http';
+    }
+
+    #[\Override]
+    public function preservesNumericHeaderNames(): bool
+    {
+        // spiral/roadrunner-http's own request decoding drops it before
+        // this adapter exists: PHP coerces a numeric string array key to
+        // an int, and HttpWorker::filterHeaders()' !is_string($key)
+        // filter then deletes it. Confirmed by reading that source
+        // directly. Recovering it would mean reimplementing that
+        // library's own JSON and protobuf request decoding here; see
+        // RoadRunnerAdapter's class docblock and docs/runtime-adapters.md.
+        return false;
+    }
+
+    #[\Override]
+    public function preservesCookieOrder(): bool
+    {
+        // RoadRunner represents cookies as a Go map[string]string on the
+        // way to PHP, and Go randomizes map iteration order by design —
+        // observed at roughly 1 request in 10 across repeated real runs.
+        // The values themselves are never lost, which is what the shared
+        // case asserts either way.
+        return false;
+    }
+
+    #[\Override]
+    public function trustsTheConnectingClient(): bool
+    {
+        // The worker fixture is started with a loopback-only
+        // TRUSTED_PROXIES, which is exactly the peer this driver connects
+        // from — see start().
+        return true;
     }
 
     private function workerScript(): string
@@ -384,15 +431,28 @@ final class RoadRunnerDriver implements RuntimeAdapterDriver
     private function rawHttpRequest(WireRequest $request, ResponseSpec $response, string $id): string
     {
         $target = $request->path . ($request->queryString !== '' ? '?' . $request->queryString : '');
+
+        // The client's own Host when it declared one, this driver's
+        // listener otherwise. One Host header either way: two is a
+        // malformed request Go's own HTTP server rejects before the
+        // worker sees it, and a request that declares an authority is
+        // exactly how the suite checks the adapter reads it from the
+        // request rather than from wherever it happens to be listening.
+        $host = self::declaredHost($request) ?? $this->hostPort;
+
         $lines = [
             "{$request->method} {$target} HTTP/1.1",
-            "Host: {$this->hostPort}",
+            "Host: {$host}",
             'Connection: close',
             "X-Conformance-Id: {$id}",
             'X-Conformance-Response: ' . base64_encode(json_encode($response->toArray(), JSON_THROW_ON_ERROR)),
         ];
 
         foreach ($request->headers as [$name, $value]) {
+            if (strcasecmp($name, 'Host') === 0) {
+                continue;
+            }
+
             $lines[] = "{$name}: {$value}";
         }
 
@@ -407,6 +467,17 @@ final class RoadRunnerDriver implements RuntimeAdapterDriver
         }
 
         return implode("\r\n", $lines) . "\r\n\r\n" . $request->body;
+    }
+
+    private static function declaredHost(WireRequest $request): ?string
+    {
+        foreach ($request->headers as [$name, $value]) {
+            if (strcasecmp($name, 'Host') === 0) {
+                return $value;
+            }
+        }
+
+        return null;
     }
 
     private static function parseResponse(string $wire, ?float $bodyArrivalSpan): WireResponse

@@ -14,13 +14,18 @@ declare(strict_types=1);
 
 require __DIR__ . '/../../../vendor/autoload.php';
 
+use Kinetis\Config\Config;
+use Kinetis\Http\Form\FormLimits;
+use Kinetis\Http\TrustedProxies;
 use Kinetis\Runtime\RuntimeDetector;
 use Kinetis\Testing\Runtime\ObservedRequest;
 use Kinetis\Testing\Runtime\ResponseSpec;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-RuntimeDetector::detect()->run(static function (ServerRequestInterface $request): ResponseInterface {
+$config = Config::fromEnvironment();
+
+RuntimeDetector::detect(FormLimits::fromConfig($config), TrustedProxies::fromConfig($config))->run(static function (ServerRequestInterface $request): ResponseInterface {
     if ($request->getUri()->getPath() === '/__conformance/ready') {
         return new \Nyholm\Psr7\Response(204);
     }
