@@ -5,14 +5,6 @@ declare(strict_types=1);
 namespace Kinetis\RoadRunnerAdapter;
 
 use Kinetis\Http\Exception\UntrustedForwardedHeaderException;
-use Kinetis\Http\Form\Exception\FormLimitExceededException;
-use Kinetis\Http\Form\Exception\UnparseableFormBodyException;
-use Kinetis\Http\Form\FormBody;
-use Kinetis\Http\Form\FormLimits;
-use Kinetis\Http\Form\MultipartEnvelope;
-use Kinetis\Http\Form\MultipartFormBuilder;
-use Kinetis\Http\Form\StagedMultipartBody;
-use Kinetis\Http\Middleware\Exception\BodyTooLargeException;
 use Kinetis\Http\Responses\ErrorResponse;
 use Kinetis\Http\TrustedProxies;
 use Kinetis\RoadRunnerAdapter\Exception\RoadRunnerAdapterException;
@@ -21,12 +13,10 @@ use Kinetis\Runtime\StreamableResponseInterface;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Riverline\MultiPartParser\StreamedPart;
 use Spiral\RoadRunner\Http\PSR7Worker;
 use Spiral\RoadRunner\Http\Request as RoadRunnerRequest;
 use Spiral\RoadRunner\Worker;
 use Throwable;
-use ValueError;
 
 /**
  * Bridges RoadRunner's Goridge/PSR7Worker protocol to the Kernel, so the
@@ -42,21 +32,17 @@ use ValueError;
  * PHP at all — the client gets a plain, non-JSON error response instead
  * of {@see RuntimeAdapterInterface::MALFORMED_BODY_MESSAGE}'s required
  * shape. `raw_body: true` disables that Go-side parsing entirely, so
- * every body — well-formed or not — reaches this adapter's own userland
- * parser untouched, the same shape `Kinetis\BrefAdapter\BrefLambdaAdapter`
- * already needs for the identical reason: a request body here is one
- * in-memory string with no live `php://input` stream behind it, and
- * parsing an arbitrary multipart string needs
- * `riverline/multipart-parser`. Pulling that into every Kinetis install
- * just for a deployment target most consumers don't use isn't worth it
- * — the same reasoning that keeps this adapter in its own package
- * rather than core. The ceilings, the multipart contract and the
- * parse-failure vocabulary stay core's `Kinetis\Http\Form`; only the
- * parser differs. A missing
- * `raw_body: true` doesn't fail silently: {@see assertRawBodyEnabled()}
- * detects it from the request itself and throws a clear configuration
- * error rather than letting this adapter re-parse a body RoadRunner
- * already parsed.
+ * every body — well-formed or not — reaches the Kernel as the bytes the
+ * client sent, which is what lets one middleware own the body contract
+ * for every runtime. A missing `raw_body: true` doesn't fail silently:
+ * {@see assertRawBodyEnabled()} detects it from the request itself and
+ * throws a clear configuration error rather than handing on a body
+ * RoadRunner has already replaced with its own re-serialization of the
+ * fields it extracted.
+ *
+ * Lives in its own package rather than in core because it needs
+ * `spiral/roadrunner-http`, and core carries only the two adapters that
+ * must always work with no dependencies at all.
  *
  * `Worker::create()`'s default `interceptSideEffects: true` installs a
  * global output-buffer redirect (`StdoutHandler::register()`) sending
@@ -118,17 +104,18 @@ use ValueError;
  * values on every run, the order only where an environment can keep it
  * — so the whole suite runs here unfiltered.
  *
- * A form body meets `Kinetis\Http\Form\FormLimits` in
- * {@see applyFormBody()}, against the bytes actually in hand as well as
- * any declared `Content-Length`. What no check here can cover is the
- * read itself: RoadRunner has already handed the whole body over as one
- * in-memory string by the time this class runs, so an undeclared-length
- * (chunked) body needs RoadRunner's own `http.max_request_size`, which
- * is required, not optional, for exactly that reason. See
- * docs/runtime-adapters.md's "`http.max_request_size` is the real
- * defense against an oversized body" section for the full reasoning,
- * and `RoadRunnerConformanceTest::test_an_oversized_chunked_body_is_rejected_by_road_runners_own_limit()`
- * for proof it actually works, not just that it's documented.
+ * This adapter hands the body on raw; `Kinetis\Http\Form\FormLimits`
+ * is applied by the Kernel's own `RequestBodyMiddleware`, the same
+ * ceilings and the same refusals every other runtime delivers its bodies
+ * to. Those apply after delivery, not before it: RoadRunner has already
+ * read the whole body into memory as one string by the time any PHP here
+ * runs, so an undeclared-length (chunked) body has to be bounded by
+ * RoadRunner's own `http.max_request_size`, which is required rather
+ * than optional for exactly that reason. See docs/runtime-adapters.md's
+ * "`http.max_request_size` is the real defense against an oversized
+ * body" section, and
+ * `RoadRunnerConformanceTest::test_an_oversized_chunked_body_is_rejected_by_road_runners_own_limit()`
+ * for proof it works rather than merely being documented.
  */
 final class RoadRunnerAdapter implements RuntimeAdapterInterface
 {
@@ -145,7 +132,6 @@ final class RoadRunnerAdapter implements RuntimeAdapterInterface
     public const string STREAMING_NOT_SUPPORTED_MESSAGE = 'RoadRunnerAdapter cannot emit a streaming response.';
 
     public function __construct(
-        private readonly FormLimits $limits,
         private readonly TrustedProxies $trustedProxies,
     ) {}
 
@@ -161,7 +147,7 @@ final class RoadRunnerAdapter implements RuntimeAdapterInterface
 
         while (($request = $psr7Worker->waitRequest()) !== null) {
             try {
-                $response = self::handle($request, $handler, $this->limits, $this->trustedProxies);
+                $response = self::handle($request, $handler, $this->trustedProxies);
             } catch (Throwable $e) {
                 // Deliberately not FrankenPhpAdapter's "let it propagate"
                 // convention: confirmed against roadrunner-server/http's
@@ -192,8 +178,9 @@ final class RoadRunnerAdapter implements RuntimeAdapterInterface
      * One request, from the raw PSR-7 request `PSR7Worker::waitRequest()`
      * built to the response to hand to `respond()` — the RoadRunner
      * counterpart of `SuperglobalsBridge::handle()`, and like it the one
-     * place a body this adapter cannot parse is turned into the
-     * framework's own 400 rather than an uncaught exception.
+     * place a failure that happens before the Kernel exists is turned
+     * into the framework's own response rather than an uncaught
+     * exception.
      *
      * Public so it's testable directly against a fabricated
      * `ServerRequestInterface`, without a real `rr` binary in the loop —
@@ -204,7 +191,6 @@ final class RoadRunnerAdapter implements RuntimeAdapterInterface
     public static function handle(
         ServerRequestInterface $request,
         callable $handler,
-        FormLimits $limits,
         TrustedProxies $trustedProxies,
     ): ResponseInterface {
         // Before anything reads the request: this adapter's own
@@ -215,23 +201,11 @@ final class RoadRunnerAdapter implements RuntimeAdapterInterface
         $request = self::foldRepeatedHeaders($request);
 
         try {
-            $request = self::applyFormBody(self::withForwardedScheme($request, $trustedProxies), $limits);
-        } catch (UnparseableFormBodyException $e) {
-            // The fixed category, never the message — see that class for
-            // why a parser's own text can never reach a log line.
-            error_log('Malformed request body: ' . $e->category);
-
-            return ErrorResponse::create(400, RuntimeAdapterInterface::MALFORMED_BODY_MESSAGE);
+            $request = self::withForwardedScheme($request, $trustedProxies);
         } catch (UntrustedForwardedHeaderException) {
-            error_log('Malformed request body: unreadable-forwarded-header');
+            error_log('Rejected request: unreadable-forwarded-header');
 
             return ErrorResponse::create(400, RuntimeAdapterInterface::MALFORMED_BODY_MESSAGE);
-        } catch (BodyTooLargeException|FormLimitExceededException $e) {
-            // Unlike the malformed-body case, these messages are safe to
-            // return directly — each names a configured ceiling, never
-            // request content — the same message MaxBodySizeMiddleware
-            // itself returns for the JSON #[Body] path.
-            return ErrorResponse::create(413, $e->getMessage());
         }
 
         $response = $handler($request);
@@ -278,41 +252,6 @@ final class RoadRunnerAdapter implements RuntimeAdapterInterface
         }
 
         return $request;
-    }
-
-    /**
-     * `Kinetis\Http\Form\FormBody` is what reads a form body here — the
-     * same entry point, the same contract and the same `413` every other
-     * runtime applies, with this package's own multipart parser passed
-     * in as the one part that differs. Neither `post_max_size` (no SAPI)
-     * nor `MaxBodySizeMiddleware` (the body is parsed before the
-     * Kernel's pipeline exists) reaches this point; RoadRunner's own
-     * `http.max_request_size` sits above it, and is what bounds a body
-     * whose length was never declared.
-     */
-    private static function applyFormBody(ServerRequestInterface $request, FormLimits $limits): ServerRequestInterface
-    {
-        $body = (string) $request->getBody();
-
-        // The body was read to build the form; rewound so a handler
-        // reading it afterwards gets the client's bytes rather than
-        // whatever is left after the read.
-        $request->getBody()->rewind();
-
-        return FormBody::apply(
-            $request,
-            $body,
-            self::declaredContentLength($request),
-            $limits,
-            static fn (string $contentType, string $raw, FormLimits $formLimits): array => self::parseMultipart($contentType, $raw, $formLimits),
-        );
-    }
-
-    private static function declaredContentLength(ServerRequestInterface $request): ?int
-    {
-        $declared = $request->getHeaderLine('Content-Length');
-
-        return ctype_digit($declared) ? (int) $declared : null;
     }
 
     /**
@@ -383,111 +322,5 @@ final class RoadRunnerAdapter implements RuntimeAdapterInterface
         if ($parsed !== false) {
             throw RoadRunnerAdapterException::rawBodyUndetectable();
         }
-    }
-
-    /**
-     * riverline/multipart-parser reads one raw HTTP part: a
-     * `Content-Type` header carrying the boundary, a blank line, then
-     * the body. {@see StagedMultipartBody} builds exactly that, owns the
-     * temporary stream for the length of the parse, and refuses to hand
-     * over a body it could not stage whole — a shorter multipart body
-     * still parses, into a form that looks complete.
-     *
-     * @return array{0:array<array-key,mixed>,1:array<array-key,mixed>}
-     */
-    private static function parseMultipart(string $contentType, string $body, FormLimits $limits): array
-    {
-        // The envelope first, over the raw bytes: riverline's getParts()
-        // builds a StreamedPart and a stream for every part before a
-        // caller can ask how many there are, so a ceiling checked on its
-        // result is checked after the cost it exists to bound has been
-        // paid. MultipartEnvelope counts what a parsed result cannot
-        // show either — unnamed parts, and repeated header lines rather
-        // than distinct names.
-        MultipartEnvelope::assertWithinLimits($body, $contentType, $limits);
-
-        return StagedMultipartBody::parse($contentType, $body, static fn ($stream): array => self::formFromParts($stream, $limits));
-    }
-
-    /**
-     * riverline reports client input it cannot read through PHP's own
-     * exception types rather than any of its own, so the mapping is by
-     * category, and each category is named here by the failures it
-     * actually covers rather than by a message match:
-     *
-     * - `InvalidArgumentException` (a subclass of `LogicException`, so
-     *   the second catch would swallow it silently if it came second):
-     *   a body whose headers never end, a header line past the parser's
-     *   own 8 KB ceiling, a content type it can find no boundary in.
-     * - `LogicException`: a body with no parts, or one that is not
-     *   multipart at all once parsed.
-     * - `ValueError`: `mb_convert_encoding()` refusing a charset the
-     *   client named — reachable from the constructor, through the
-     *   `boundary` parameter, and from every metadata accessor, through
-     *   an RFC 5987 `name*=`/`filename*=` parameter. Client-chosen text
-     *   either way, and so a client error rather than this worker's.
-     *
-     * Every one of those is a `400` carrying
-     * {@see RuntimeAdapterInterface::MALFORMED_BODY_MESSAGE} and a fixed
-     * category, with the parser's own message discarded rather than
-     * attached: it is assembled from the input that failed, and would
-     * otherwise travel into a log line by way of a `previous` chain. The
-     * envelope contract in `Kinetis\Http\Form\MultipartEnvelope` has
-     * already refused every body these can be reached with, on this
-     * runtime and every other; the mapping stays because a parser
-     * failing on input a scan accepted must still be one refusal
-     * clients cannot tell apart, not an uncaught error.
-     *
-     * Anything else — a {@see \Kinetis\Http\Form\Exception\FormStagingException}
-     * from the stream underneath, a limit refusal from the builder —
-     * travels on untouched: those are not "the client sent nonsense".
-     *
-     * The metadata this reads is the metadata the scan already held to
-     * the contract: the raw `Content-Type` header rather than
-     * `getMimeType()`, which answers `application/octet-stream` for a
-     * part that declared nothing and would report a media type the
-     * client never sent.
-     *
-     * @param resource $stream
-     * @return array{0:array<array-key,mixed>,1:array<array-key,mixed>}
-     */
-    private static function formFromParts($stream, FormLimits $limits): array
-    {
-        try {
-            $parts = (new StreamedPart($stream))->getParts();
-        } catch (\InvalidArgumentException|\LogicException|ValueError) {
-            throw UnparseableFormBodyException::unreadableMultipart();
-        }
-
-        if ($parts === []) {
-            throw UnparseableFormBodyException::noParts();
-        }
-
-        $builder = new MultipartFormBuilder($limits);
-
-        foreach ($parts as $part) {
-            try {
-                $name = $part->getName();
-                $filename = $part->getFileName();
-                $mediaType = $part->getHeader('Content-Type');
-                $contents = $name === null ? '' : $part->getBody();
-            } catch (\LogicException|ValueError) {
-                throw UnparseableFormBodyException::undecodablePart();
-            }
-
-            if (!is_string($name)) {
-                continue;
-            }
-
-            if (is_string($filename)) {
-                $builder->addFile($name, $filename, is_string($mediaType) ? $mediaType : null, $contents);
-
-                continue;
-            }
-
-            $builder->addField($name, $contents);
-        }
-
-        return $builder->build();
     }
 }

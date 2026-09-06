@@ -25,11 +25,9 @@ API-first applications, developed in the
 Speaks RoadRunner's own Goridge/`PSR7Worker` protocol — a persistent
 worker loop, structurally the closest of Kinetis's four runtime adapters
 to `FrankenPhpAdapter`'s, but built on RoadRunner's own PHP worker
-library rather than a raw request-handling function. Converts to/from
-PSR-7, including `multipart/form-data`/`application/x-www-form-urlencoded`
-support parsed in userland — the same shape [`kinetis/bref-adapter`](https://github.com/kinetis-dev/bref-adapter) needs
-for the identical reason: a request body here is one in-memory string
-with no live `php://input` behind it.
+library rather than a raw request-handling function. Converts to and
+from PSR-7 and hands the request body on as raw bytes, which core's own
+`RequestBodyMiddleware` then stages, bounds and parses.
 
 There's nothing to configure or call directly: install the package, and
 `RuntimeDetector` picks it up automatically the moment `RR_MODE=http` is
@@ -65,10 +63,9 @@ want one consistent limit. Both sit alongside
 `Kinetis\Http\Form\FormLimits`, which bounds how *complicated* a form
 may be (input variables counted from the raw body, file parts, nesting
 depth, multipart parts including unnamed ones, and header lines per
-part) with the same numbers core applies under every other runtime, and
-alongside `Kinetis\Http\Form\MultipartEnvelope`, which settles what a
-multipart body may say on the wire — delimiters, transfer encodings,
-metadata and nesting — before `riverline/multipart-parser` expands it,
+part), and alongside `Kinetis\Http\Form\MultipartEnvelope`, which
+settles what a multipart body may say on the wire — delimiters, transfer encodings,
+metadata and nesting. Both are core's, applied by core's own middleware,
 so a form means the same thing here as it does under FrankenPHP.
 
 `X-Forwarded-Proto` is read only from a peer listed in `TRUSTED_PROXIES`.

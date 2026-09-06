@@ -289,21 +289,6 @@ final class RoadRunnerDriver implements RuntimeAdapterDriver
     }
 
     #[\Override]
-    public function unparseableFormRequest(): WireRequest
-    {
-        // http.raw_body: true (required — see RoadRunnerAdapter's class
-        // docblock) means RoadRunner's own parsing never sees this body
-        // at all; the failure is this adapter's own parser finding the
-        // declared boundary nowhere in it.
-        return new WireRequest(
-            'POST',
-            '/',
-            headers: [['Content-Type', 'multipart/form-data; boundary=----XYZ']],
-            body: 'not a real multipart body at all',
-        );
-    }
-
-    #[\Override]
     public function expectedScheme(): string
     {
         // A plain listener; the conformance server terminates no TLS.

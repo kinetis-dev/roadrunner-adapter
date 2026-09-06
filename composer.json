@@ -1,6 +1,6 @@
 {
     "name": "kinetis/roadrunner-adapter",
-    "description": "RoadRunner runtime adapter for Kinetis — speaks the PSR7Worker/Goridge protocol and converts to/from PSR-7, including multipart/form-data support.",
+    "description": "RoadRunner runtime adapter for Kinetis — speaks the PSR7Worker/Goridge protocol and converts to/from PSR-7.",
     "type": "library",
     "license": "MIT",
     "authors": [
@@ -13,7 +13,6 @@
         "kinetis/framework": "dev-main",
         "nyholm/psr7": "^1.8.2",
         "psr/http-message": "^2.0",
-        "riverline/multipart-parser": "^2.2.2",
         "spiral/roadrunner-http": "^4.1",
         "spiral/roadrunner-worker": "^3.5"
     },
