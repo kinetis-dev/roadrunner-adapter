@@ -328,6 +328,13 @@ final class RoadRunnerDriver implements RuntimeAdapterDriver
         return true;
     }
 
+    #[\Override]
+    public function supportsPlaintextRequests(): bool
+    {
+        // RoadRunner's own HTTP listener, terminating no TLS.
+        return true;
+    }
+
     private function workerScript(): string
     {
         return __DIR__ . '/Fixtures/worker.php';
