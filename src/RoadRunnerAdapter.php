@@ -55,7 +55,9 @@ use Throwable;
  * anywhere. `HttpWorker::respondStream()`'s real generator-based push
  * primitive is a genuinely different, lower-level API than
  * `PSR7Worker::respond()`, and bridging one onto the other needs its own
- * design pass — not attempted here.
+ * design pass — not attempted here. A streamed response reaching
+ * {@see handle()} is abandoned before the refusal goes back, so the
+ * request scope behind it is released on the request that created it.
  *
  * Two environment-specific header differences from
  * `SuperglobalsBridge`/`BrefLambdaAdapter`, both of them
@@ -211,6 +213,12 @@ final class RoadRunnerAdapter implements RuntimeAdapterInterface
         $response = $handler($request);
 
         if ($response instanceof StreamableResponseInterface) {
+            // Abandoned, not dropped: this worker never writes the body,
+            // so the request scope the emitter would have resolved from
+            // is released here rather than staying live until the next
+            // request reaches the Kernel.
+            $response->abandon();
+
             // A real, ordinary HTTP response — not Worker::error() —
             // so a client (and the runtime conformance suite's own
             // driver) sees a clean, recognizable refusal rather than an

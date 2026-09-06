@@ -334,6 +334,37 @@ final class RoadRunnerAdapterTest extends TestCase
     }
 
     /**
+     * This worker never writes the body, so the response is abandoned
+     * before the refusal goes back: that releases the request scope the
+     * Kernel is holding open for the emitter, on the request that
+     * created it, rather than leaving it live until the next one arrives.
+     */
+    public function test_a_streaming_response_is_abandoned_before_the_501_is_returned(): void
+    {
+        $emitted = false;
+        $released = 0;
+        $streamed = new StreamedResponse(
+            new Response(200),
+            static function () use (&$emitted): void {
+                $emitted = true;
+            },
+            static function () use (&$released): void {
+                $released++;
+            },
+        );
+
+        $response = RoadRunnerAdapter::handle(
+            self::request('GET', '/'),
+            static fn (): ResponseInterface => $streamed,
+            self::proxies(),
+        );
+
+        self::assertSame(1, $released, 'the refusal must settle the stream, not drop it');
+        self::assertFalse($emitted, 'this runtime cannot write the body, so it must not run the emitter');
+        self::assertSame(501, $response->getStatusCode());
+    }
+
+    /**
      * A request shaped the way a real worker delivers one: with the
      * `rr_parsed_body` attribute set, and set to `false`, which is what
      * RoadRunner reports for every request when `http.raw_body: true` is
