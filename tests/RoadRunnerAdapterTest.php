@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace Kinetis\RoadRunnerAdapter\Tests;
 
+use Kinetis\Container\AppScope;
+use Kinetis\Container\RequestScope;
 use Kinetis\Http\Responses\ErrorResponse;
+use Kinetis\Http\StreamScopeLease;
 use Kinetis\Http\StreamedResponse;
 use Kinetis\Http\TrustedProxies;
 use Kinetis\RoadRunnerAdapter\Exception\RoadRunnerAdapterException;
@@ -342,15 +345,14 @@ final class RoadRunnerAdapterTest extends TestCase
     public function test_a_streaming_response_is_abandoned_before_the_501_is_returned(): void
     {
         $emitted = false;
-        $released = 0;
+        $app = new AppScope();
+        $scope = new RequestScope($app);
         $streamed = new StreamedResponse(
             new Response(200),
             static function () use (&$emitted): void {
                 $emitted = true;
             },
-            static function () use (&$released): void {
-                $released++;
-            },
+            new StreamScopeLease($app, $scope, 'GET', '/'),
         );
 
         $response = RoadRunnerAdapter::handle(
@@ -359,7 +361,7 @@ final class RoadRunnerAdapterTest extends TestCase
             self::proxies(),
         );
 
-        self::assertSame(1, $released, 'the refusal must settle the stream, not drop it');
+        self::assertTrue($scope->isDisposed(), 'the refusal must settle the stream, not drop it');
         self::assertFalse($emitted, 'this runtime cannot write the body, so it must not run the emitter');
         self::assertSame(501, $response->getStatusCode());
     }
