@@ -312,8 +312,7 @@ final class RoadRunnerDriver implements RuntimeAdapterDriver
     public function preservesCookieOrder(): bool
     {
         // RoadRunner represents cookies as a Go map[string]string on the
-        // way to PHP, and Go randomizes map iteration order by design —
-        // observed at roughly 1 request in 10 across repeated real runs.
+        // way to PHP, and Go randomizes map iteration order by design.
         // The values themselves are never lost, which is what the shared
         // case asserts either way.
         return false;

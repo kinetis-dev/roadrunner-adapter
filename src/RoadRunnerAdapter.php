@@ -67,42 +67,22 @@ use Throwable;
  *   RFC 9110 comma-joined string — {@see foldRepeatedHeaders()} closes
  *   this, so every framework component downstream sees the same shape
  *   regardless of adapter.
- * - A purely-numeric header name is silently dropped before this class
- *   ever sees the request, and cannot be recovered from here. PHP
- *   coerces a numeric string array key (`"123"`) to an `int` one;
- *   `HttpWorker::filterHeaders()` (called from both `arrayToRequest()`
- *   and `requestFromProto()`, on the request-parsing path, before
- *   `PSR7Worker::mapRequest()` ever builds a PSR-7 object) then deletes
- *   it via `!is_string($key)` — a real bug in that library, not a
- *   Kinetis gap, confirmed by reading its source directly rather than
- *   inferred from the symptom. Working around it would mean
- *   reimplementing `HttpWorker`'s own JSON/protobuf request decoding
- *   (both codecs) in this package instead of using `PSR7Worker`, the
- *   same "don't hand-roll a solved wire protocol" reasoning that keeps
- *   this codebase from hand-rolling SQL/AMQP wire protocols elsewhere —
- *   disproportionate to a real-world edge case (a header literally
- *   named with only digits) this narrow. Left as a disclosed, permanent
- *   limitation until the upstream library fixes it; see
- *   docs/runtime-adapters.md for the deployment-facing version of this
- *   note.
+ * - A purely-numeric header name is dropped before this class ever sees
+ *   the request, and cannot be recovered from here. PHP coerces a
+ *   numeric string array key (`"123"`) to an `int` one, and
+ *   `HttpWorker::filterHeaders()` then removes it while parsing the
+ *   request, before `PSR7Worker::mapRequest()` builds a PSR-7 object.
+ *   Recovering it would mean reimplementing that library's own
+ *   JSON/protobuf request decoding in this package instead of using
+ *   `PSR7Worker`; see docs/runtime-adapters.md for the
+ *   deployment-facing version of this limitation.
  *
- * A third, probabilistic finding, distinct from the two above: cookie
- * order is occasionally not preserved (observed at roughly 1 request in
- * 10 across repeated real runs, not deterministic). `$_COOKIE`-style
- * parsing under FrankenPHP/FPM, and API Gateway's own event field under
- * Bref, both preserve the client's original `Cookie:` header order;
- * RoadRunner's Go side represents cookies as a `map[string]string` on
- * the way to PHP, and Go's map iteration order is randomized by design
- * — a request whose cookies happen to be re-serialized through that map
- * can arrive with a different order than it was sent in. Structurally
- * the same class of Go/PHP-boundary information loss as the header
- * finding above, just probabilistic rather than certain — not chased
- * to a full root-cause trace (which codec, which exact serialization
- * step) given how rarely it triggers and that this package's own
- * request handling has nothing to do with the reordering either way.
- * The one thing this *isn't* is untested: `RoadRunnerDriver` declares
- * that this environment does not preserve cookie order, and the shared
- * conformance suite asserts against that declaration — the names and
+ * Cookie order is not guaranteed either. RoadRunner's Go side
+ * represents cookies as a `map[string]string` on the way to PHP, and Go
+ * randomizes map iteration order by design, so a request's cookies can
+ * arrive in a different order than the client sent them in.
+ * `RoadRunnerDriver` declares both limitations and the shared
+ * conformance suite asserts against that declaration — cookie names and
  * values on every run, the order only where an environment can keep it
  * — so the whole suite runs here unfiltered.
  *
