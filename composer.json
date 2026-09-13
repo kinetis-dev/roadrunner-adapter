@@ -19,9 +19,9 @@
     "require-dev": {
         "infection/infection": "^0.35.0",
         "phpstan/phpstan": "^2.2.8",
-        "phpunit/phpunit": "^12.5.33",
+        "phpunit/phpunit": "^13.3.3",
         "spiral/roadrunner-cli": "^2.6",
-        "vimeo/psalm": "^6.16.1"
+        "vimeo/psalm": "^6.17"
     },
     "autoload": {
         "psr-4": {
