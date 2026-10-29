@@ -86,6 +86,18 @@ final class RoadRunnerAdapterTest extends TestCase
     }
 
     /**
+     * PSR-7 stores a purely-numeric header name under an int key, so
+     * the fold reads it back as an int and has to cast it before
+     * comparing or re-setting it under strict types.
+     */
+    public function test_folds_a_repeated_purely_numeric_header(): void
+    {
+        $captured = $this->capture(self::request('GET', '/', ['123' => ['first', 'second']]));
+
+        self::assertSame(['first, second'], $captured->getHeader('123'));
+    }
+
+    /**
      * The other half of the same distinction {@see test_folds_a_repeated_header_into_one_comma_joined_value()}
      * makes: a single value must reach the handler as exactly one
      * stored value, not "coincidentally still one value because
@@ -193,7 +205,7 @@ final class RoadRunnerAdapterTest extends TestCase
             self::assertSame(
                 'This RoadRunner worker did not report whether it parsed the request '
                 . 'body itself, so http.raw_body cannot be verified. kinetis/roadrunner-adapter '
-                . 'requires a spiral/roadrunner-http version that sets the rr_parsed_body '
+                . 'requires a roadrunner/http version that sets the rr_parsed_body '
                 . 'request attribute.',
                 $e->getMessage(),
             );

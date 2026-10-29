@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a86fd546bcca8c94a6b32f481e4859dc",
+    "content-hash": "c28e5646ca7968381cd82fa2d0810605",
     "packages": [
         {
             "name": "google/protobuf",
-            "version": "v5.36.0",
+            "version": "v5.36.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/protocolbuffers/protobuf-php.git",
-                "reference": "9c105104b54709ecd902494ab340ed2122789b2d"
+                "reference": "020bc8e831611869ac387ddd38fbbadd78d15195"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/protocolbuffers/protobuf-php/zipball/9c105104b54709ecd902494ab340ed2122789b2d",
-                "reference": "9c105104b54709ecd902494ab340ed2122789b2d",
+                "url": "https://api.github.com/repos/protocolbuffers/protobuf-php/zipball/020bc8e831611869ac387ddd38fbbadd78d15195",
+                "reference": "020bc8e831611869ac387ddd38fbbadd78d15195",
                 "shasum": ""
             },
             "require": {
@@ -46,9 +46,9 @@
                 "proto"
             ],
             "support": {
-                "source": "https://github.com/protocolbuffers/protobuf-php/tree/v5.36.0"
+                "source": "https://github.com/protocolbuffers/protobuf-php/tree/v5.36.2"
             },
-            "time": "2026-08-20T13:06:50+00:00"
+            "time": "2026-09-17T15:56:42+00:00"
         },
         {
             "name": "graham-campbell/result-type",
@@ -893,17 +893,17 @@
             "time": "2026-05-16T17:55:38+00:00"
         },
         {
-            "name": "roadrunner-php/roadrunner-api-dto",
-            "version": "v1.15.0",
+            "name": "roadrunner/api-dto",
+            "version": "v2.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/roadrunner-php/roadrunner-api-dto.git",
-                "reference": "dd936d06246e50215bf9cd21cbcecfd6ad15a73e"
+                "reference": "90e5b93788820a08184ed9c0b821df8272cc24e5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/roadrunner-php/roadrunner-api-dto/zipball/dd936d06246e50215bf9cd21cbcecfd6ad15a73e",
-                "reference": "dd936d06246e50215bf9cd21cbcecfd6ad15a73e",
+                "url": "https://api.github.com/repos/roadrunner-php/roadrunner-api-dto/zipball/90e5b93788820a08184ed9c0b821df8272cc24e5",
+                "reference": "90e5b93788820a08184ed9c0b821df8272cc24e5",
                 "shasum": ""
             },
             "require": {
@@ -911,7 +911,10 @@
                 "php": "^8.1"
             },
             "conflict": {
-                "temporal/sdk": "<2.9.0"
+                "temporal/sdk": "<2.20"
+            },
+            "replace": {
+                "roadrunner-php/roadrunner-api-dto": "self.version"
             },
             "suggest": {
                 "google/common-protos": "Required for Temporal API"
@@ -930,26 +933,34 @@
             ],
             "authors": [
                 {
-                    "name": "Pavel Butchnev (butschster)",
-                    "email": "pavel.buchnev@spiralscout.com"
+                    "name": "Pavel Buchnev",
+                    "homepage": "https://github.com/butschster"
                 },
                 {
-                    "name": "Aleksei Gagarin (roxblnfk)",
-                    "email": "alexey.gagarin@spiralscout.com"
+                    "name": "Aleksei Gagarin",
+                    "homepage": "https://github.com/roxblnfk"
                 },
                 {
                     "name": "RoadRunner Community",
                     "homepage": "https://github.com/roadrunner-server/roadrunner/graphs/contributors"
                 }
             ],
-            "description": "RoadRunner PHP API",
-            "homepage": "https://roadrunner.dev",
+            "description": "Pre-generated PHP DTOs for the RoadRunner API protocol buffers, used to make RPC calls to the RoadRunner server",
+            "homepage": "https://roadrunner.dev/",
+            "keywords": [
+                "api",
+                "dto",
+                "protobuf",
+                "roadrunner",
+                "rpc",
+                "temporal"
+            ],
             "support": {
                 "chat": "https://discord.gg/V6EK4he",
                 "docs": "https://docs.roadrunner.dev",
                 "forum": "https://forum.roadrunner.dev",
                 "issues": "https://github.com/roadrunner-server/roadrunner/issues",
-                "source": "https://github.com/roadrunner-php/roadrunner-api-dto/tree/v1.15.0"
+                "source": "https://github.com/roadrunner-php/roadrunner-api-dto"
             },
             "funding": [
                 {
@@ -957,44 +968,46 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-08-20T11:07:41+00:00"
+            "time": "2026-10-10T12:47:42+00:00"
         },
         {
-            "name": "spiral/goridge",
-            "version": "4.2.2",
+            "name": "roadrunner/goridge",
+            "version": "4.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/roadrunner-php/goridge.git",
-                "reference": "a14454ce6c9cfcec76bbd283292c25fb33fc5a43"
+                "reference": "887bd3a6f89a0b95252db608856d33d7a1284406"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/roadrunner-php/goridge/zipball/a14454ce6c9cfcec76bbd283292c25fb33fc5a43",
-                "reference": "a14454ce6c9cfcec76bbd283292c25fb33fc5a43",
+                "url": "https://api.github.com/repos/roadrunner-php/goridge/zipball/887bd3a6f89a0b95252db608856d33d7a1284406",
+                "reference": "887bd3a6f89a0b95252db608856d33d7a1284406",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
                 "ext-sockets": "*",
-                "php": ">=8.1",
-                "spiral/roadrunner": "^2023 || ^2024.1 || ^2025.1"
+                "php": ">=8.2",
+                "roadrunner/roadrunner": "^3.0"
+            },
+            "replace": {
+                "spiral/goridge": "self.version"
             },
             "require-dev": {
-                "google/protobuf": "^3.22 || ^4.0",
-                "infection/infection": "^0.29.0",
+                "google/protobuf": "^3.22 || ^4.0 || ^5.0",
                 "jetbrains/phpstorm-attributes": "^1.0",
-                "phpunit/phpunit": "^10.5.45",
+                "llm/skills": "^1.14",
+                "roxblnfk/unpoly": "^1.8",
                 "rybakit/msgpack": "^0.7",
-                "spiral/code-style": "*",
-                "vimeo/psalm": "^6.0"
+                "spiral/code-style": "^2.3.1",
+                "testo/testo": "^0.10.55",
+                "vimeo/psalm": "^6 || ^7"
             },
             "suggest": {
-                "ext-msgpack": "MessagePack codec support",
                 "ext-protobuf": "Protobuf codec support",
-                "google/protobuf": "(^3.0) Protobuf codec support",
-                "rybakit/msgpack": "(^0.7) MessagePack codec support"
+                "google/protobuf": "(^3.22 || ^4.0 || ^5.0) Protobuf codec support"
             },
-            "type": "goridge",
+            "type": "library",
             "autoload": {
                 "psr-4": {
                     "Spiral\\Goridge\\": "src"
@@ -1006,37 +1019,48 @@
             ],
             "authors": [
                 {
-                    "name": "Anton Titov (wolfy-j)",
-                    "email": "wolfy-j@spiralscout.com"
+                    "name": "Anton Titov",
+                    "homepage": "https://github.com/wolfy-j"
                 },
                 {
                     "name": "Valery Piashchynski",
                     "homepage": "https://github.com/rustatian"
                 },
                 {
-                    "name": "Aleksei Gagarin (roxblnfk)",
+                    "name": "Aleksei Gagarin",
                     "homepage": "https://github.com/roxblnfk"
                 },
                 {
-                    "name": "Pavel Buchnev (butschster)",
-                    "email": "pavel.buchnev@spiralscout.com"
+                    "name": "Pavel Buchnev",
+                    "homepage": "https://github.com/butschster"
                 },
                 {
-                    "name": "Maksim Smakouz (msmakouz)",
-                    "email": "maksim.smakouz@spiralscout.com"
+                    "name": "Maksim Smakouz",
+                    "homepage": "https://github.com/msmakouz"
                 },
                 {
                     "name": "RoadRunner Community",
                     "homepage": "https://github.com/roadrunner-server/roadrunner/graphs/contributors"
                 }
             ],
-            "description": "High-performance PHP-to-Golang RPC bridge",
-            "homepage": "https://spiral.dev/",
+            "description": "High-performance PHP-to-Go IPC bridge: the RPC transport between PHP workers and the RoadRunner application server",
+            "homepage": "https://roadrunner.dev/",
+            "keywords": [
+                "Relay",
+                "Socket",
+                "golang",
+                "goridge",
+                "ipc",
+                "pipes",
+                "protobuf",
+                "roadrunner",
+                "rpc"
+            ],
             "support": {
                 "chat": "https://discord.gg/V6EK4he",
-                "docs": "https://docs.roadrunner.dev",
+                "docs": "https://docs.roadrunner.dev/docs/php-worker/rpc",
                 "issues": "https://github.com/roadrunner-server/roadrunner/issues",
-                "source": "https://github.com/roadrunner-php/goridge/tree/4.2.2"
+                "source": "https://github.com/roadrunner-php/goridge"
             },
             "funding": [
                 {
@@ -1044,20 +1068,125 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-05-11T11:29:46+00:00"
+            "time": "2026-10-19T08:41:25+00:00"
         },
         {
-            "name": "spiral/roadrunner",
-            "version": "v2025.1.15",
+            "name": "roadrunner/http",
+            "version": "v4.2.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/roadrunner-server/roadrunner.git",
-                "reference": "321b817fab1056e404533ca1ddd200e77d1525fd"
+                "url": "https://github.com/roadrunner-php/http.git",
+                "reference": "8aef71907057d076f132484b32fe6178c370a73d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/roadrunner-server/roadrunner/zipball/321b817fab1056e404533ca1ddd200e77d1525fd",
-                "reference": "321b817fab1056e404533ca1ddd200e77d1525fd",
+                "url": "https://api.github.com/repos/roadrunner-php/http/zipball/8aef71907057d076f132484b32fe6178c370a73d",
+                "reference": "8aef71907057d076f132484b32fe6178c370a73d",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "php": ">=8.2",
+                "psr/http-factory": "^1.0.1",
+                "psr/http-message": "^1.0.1 || ^2.0",
+                "roadrunner/api-dto": "^2.1",
+                "roadrunner/roadrunner": "^3.0",
+                "roadrunner/worker": "^3.8",
+                "symfony/polyfill-php83": "^1.29"
+            },
+            "replace": {
+                "spiral/roadrunner-http": "self.version"
+            },
+            "require-dev": {
+                "jetbrains/phpstorm-attributes": "^1.0",
+                "llm/skills": "^1.14",
+                "mockery/mockery": "^1.6.12",
+                "nyholm/psr7": "^1.3",
+                "roxblnfk/unpoly": "^1.8",
+                "spiral/code-style": "^2.3.1",
+                "spiral/dumper": "^3.3",
+                "symfony/process": "^6.2 || ^7.0",
+                "testo/bridge-mockery": "^0.1.2",
+                "testo/testo": "^0.10.55",
+                "vimeo/psalm": "^6 || ^7"
+            },
+            "suggest": {
+                "ext-protobuf": "Provides Protocol Buffers support. Without it, performance will be lower.",
+                "roadrunner/cli": "Provides RoadRunner installation and management CLI tools"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Spiral\\RoadRunner\\Http\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Anton Titov",
+                    "homepage": "https://github.com/wolfy-j"
+                },
+                {
+                    "name": "Valery Piashchynski",
+                    "homepage": "https://github.com/rustatian"
+                },
+                {
+                    "name": "Aleksei Gagarin",
+                    "homepage": "https://github.com/roxblnfk"
+                },
+                {
+                    "name": "Pavel Buchnev",
+                    "homepage": "https://github.com/butschster"
+                },
+                {
+                    "name": "Maksim Smakouz",
+                    "homepage": "https://github.com/msmakouz"
+                },
+                {
+                    "name": "RoadRunner Community",
+                    "homepage": "https://github.com/roadrunner-server/roadrunner/graphs/contributors"
+                }
+            ],
+            "description": "PSR-7 HTTP worker for the RoadRunner application server",
+            "homepage": "https://roadrunner.dev/",
+            "keywords": [
+                "http",
+                "psr-17",
+                "psr-7",
+                "roadrunner",
+                "server",
+                "worker"
+            ],
+            "support": {
+                "chat": "https://discord.gg/V6EK4he",
+                "docs": "https://docs.roadrunner.dev/docs/http/http",
+                "forum": "https://forum.roadrunner.dev/",
+                "issues": "https://github.com/roadrunner-server/roadrunner/issues",
+                "source": "https://github.com/roadrunner-php/http"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/sponsors/roadrunner-server",
+                    "type": "github"
+                }
+            ],
+            "time": "2026-10-19T08:38:20+00:00"
+        },
+        {
+            "name": "roadrunner/roadrunner",
+            "version": "v3.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/roadrunner-server/roadrunner.git",
+                "reference": "ed89c2ec991f64b072297fcbee5ad7f058779199"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/roadrunner-server/roadrunner/zipball/ed89c2ec991f64b072297fcbee5ad7f058779199",
+                "reference": "ed89c2ec991f64b072297fcbee5ad7f058779199",
                 "shasum": ""
             },
             "type": "metapackage",
@@ -1085,7 +1214,7 @@
                 "chat": "https://discord.gg/V6EK4he",
                 "docs": "https://docs.roadrunner.dev/",
                 "issues": "https://github.com/roadrunner-server/roadrunner/issues",
-                "source": "https://github.com/roadrunner-server/roadrunner/tree/v2025.1.15"
+                "source": "https://github.com/roadrunner-server/roadrunner/tree/v3.0.1"
             },
             "funding": [
                 {
@@ -1093,130 +1222,47 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-06-17T14:49:38+00:00"
+            "time": "2026-10-21T19:33:12+00:00"
         },
         {
-            "name": "spiral/roadrunner-http",
-            "version": "v4.1.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/roadrunner-php/http.git",
-                "reference": "b69cf62dcab7d4b1945fef7b40339edd4fc016c8"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/roadrunner-php/http/zipball/b69cf62dcab7d4b1945fef7b40339edd4fc016c8",
-                "reference": "b69cf62dcab7d4b1945fef7b40339edd4fc016c8",
-                "shasum": ""
-            },
-            "require": {
-                "ext-json": "*",
-                "php": ">=8.1",
-                "psr/http-factory": "^1.0.1",
-                "psr/http-message": "^1.0.1 || ^2.0",
-                "roadrunner-php/roadrunner-api-dto": "^1.6",
-                "spiral/roadrunner": "^2023.3 || ^2024.1 || ^2025.1",
-                "spiral/roadrunner-worker": "^3.5",
-                "symfony/polyfill-php83": "^1.29"
-            },
-            "require-dev": {
-                "jetbrains/phpstorm-attributes": "^1.0",
-                "nyholm/psr7": "^1.3",
-                "phpunit/phpunit": "^10.5",
-                "spiral/code-style": "^2.3",
-                "spiral/dumper": "^3.3",
-                "symfony/process": "^6.2 || ^7.0",
-                "vimeo/psalm": "^6.13"
-            },
-            "suggest": {
-                "ext-protobuf": "Provides Protocol Buffers support. Without it, performance will be lower.",
-                "spiral/roadrunner-cli": "Provides RoadRunner installation and management CLI tools"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Spiral\\RoadRunner\\Http\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Anton Titov (wolfy-j)",
-                    "email": "wolfy-j@spiralscout.com"
-                },
-                {
-                    "name": "Valery Piashchynski",
-                    "homepage": "https://github.com/rustatian"
-                },
-                {
-                    "name": "Aleksei Gagarin (roxblnfk)",
-                    "homepage": "https://github.com/roxblnfk"
-                },
-                {
-                    "name": "Pavel Buchnev (butschster)",
-                    "email": "pavel.buchnev@spiralscout.com"
-                },
-                {
-                    "name": "Maksim Smakouz (msmakouz)",
-                    "email": "maksim.smakouz@spiralscout.com"
-                },
-                {
-                    "name": "RoadRunner Community",
-                    "homepage": "https://github.com/roadrunner-server/roadrunner/graphs/contributors"
-                }
-            ],
-            "description": "RoadRunner: HTTP and PSR-7 worker",
-            "homepage": "https://spiral.dev/",
-            "support": {
-                "chat": "https://discord.gg/V6EK4he",
-                "docs": "https://docs.roadrunner.dev",
-                "forum": "https://forum.roadrunner.dev/",
-                "issues": "https://github.com/roadrunner-server/roadrunner/issues",
-                "source": "https://github.com/roadrunner-php/http/tree/v4.1.0"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/sponsors/roadrunner-server",
-                    "type": "github"
-                }
-            ],
-            "time": "2026-02-26T11:41:09+00:00"
-        },
-        {
-            "name": "spiral/roadrunner-worker",
-            "version": "v3.6.2",
+            "name": "roadrunner/worker",
+            "version": "v3.8.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/roadrunner-php/worker.git",
-                "reference": "8d9905b1e6677f34ff8623893f35b5e2fa828e37"
+                "reference": "35fcf09b55de68954e03dc727b710b963db9517d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/roadrunner-php/worker/zipball/8d9905b1e6677f34ff8623893f35b5e2fa828e37",
-                "reference": "8d9905b1e6677f34ff8623893f35b5e2fa828e37",
+                "url": "https://api.github.com/repos/roadrunner-php/worker/zipball/35fcf09b55de68954e03dc727b710b963db9517d",
+                "reference": "35fcf09b55de68954e03dc727b710b963db9517d",
                 "shasum": ""
             },
             "require": {
                 "composer-runtime-api": "^2.0",
                 "ext-json": "*",
                 "ext-sockets": "*",
-                "php": ">=8.1",
+                "php": ">=8.2",
                 "psr/log": "^2.0 || ^3.0",
-                "spiral/goridge": "^4.1.0",
-                "spiral/roadrunner": "^2023.1 || ^2024.1 || ^2025.1"
+                "roadrunner/goridge": "^4.5",
+                "roadrunner/roadrunner": "^3.0"
+            },
+            "replace": {
+                "spiral/roadrunner-worker": "self.version"
             },
             "require-dev": {
                 "buggregator/trap": "^1.13",
                 "jetbrains/phpstorm-attributes": "^1.0",
-                "phpunit/phpunit": "^10.5.45",
-                "spiral/code-style": "^2.2",
-                "vimeo/psalm": "^6.0"
+                "llm/skills": "^1.14",
+                "mockery/mockery": "^1.6.7",
+                "roxblnfk/unpoly": "^1.8",
+                "spiral/code-style": "^2.3.1",
+                "testo/bridge-mockery": "^0.1.2",
+                "testo/testo": "^0.10.55",
+                "vimeo/psalm": "^6 || ^7"
             },
             "suggest": {
-                "spiral/roadrunner-cli": "Provides RoadRunner installation and management CLI tools"
+                "roadrunner/cli": "Provides RoadRunner installation and management CLI tools"
             },
             "type": "library",
             "autoload": {
@@ -1230,37 +1276,44 @@
             ],
             "authors": [
                 {
-                    "name": "Anton Titov (wolfy-j)",
-                    "email": "wolfy-j@spiralscout.com"
+                    "name": "Anton Titov",
+                    "homepage": "https://github.com/wolfy-j"
                 },
                 {
                     "name": "Valery Piashchynski",
                     "homepage": "https://github.com/rustatian"
                 },
                 {
-                    "name": "Aleksei Gagarin (roxblnfk)",
+                    "name": "Aleksei Gagarin",
                     "homepage": "https://github.com/roxblnfk"
                 },
                 {
-                    "name": "Pavel Buchnev (butschster)",
-                    "email": "pavel.buchnev@spiralscout.com"
+                    "name": "Pavel Buchnev",
+                    "homepage": "https://github.com/butschster"
                 },
                 {
-                    "name": "Maksim Smakouz (msmakouz)",
-                    "email": "maksim.smakouz@spiralscout.com"
+                    "name": "Maksim Smakouz",
+                    "homepage": "https://github.com/msmakouz"
                 },
                 {
                     "name": "RoadRunner Community",
                     "homepage": "https://github.com/roadrunner-server/roadrunner/graphs/contributors"
                 }
             ],
-            "description": "RoadRunner: PHP worker",
-            "homepage": "https://spiral.dev/",
+            "description": "Base PHP worker for the RoadRunner application server: receives payloads over Goridge, sends responses and manages the worker pool",
+            "homepage": "https://roadrunner.dev/",
+            "keywords": [
+                "application-server",
+                "goridge",
+                "long-running",
+                "roadrunner",
+                "worker"
+            ],
             "support": {
                 "chat": "https://discord.gg/V6EK4he",
-                "docs": "https://docs.roadrunner.dev",
+                "docs": "https://docs.roadrunner.dev/docs/php-worker/worker",
                 "issues": "https://github.com/roadrunner-server/roadrunner/issues",
-                "source": "https://github.com/roadrunner-php/worker/tree/v3.6.2"
+                "source": "https://github.com/roadrunner-php/worker"
             },
             "funding": [
                 {
@@ -1268,7 +1321,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-05-05T12:34:50+00:00"
+            "time": "2026-10-19T08:47:25+00:00"
         },
         {
             "name": "symfony/polyfill-ctype",
@@ -1355,16 +1408,16 @@
         },
         {
             "name": "symfony/polyfill-mbstring",
-            "version": "v1.38.2",
+            "version": "v1.43.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-mbstring.git",
-                "reference": "d3d318bad5e7a1bfbd026009c8bfb8d8f99ae6b6"
+                "reference": "4d5d331bf731e0aedbc6b2f5e61135b7b7996a72"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/d3d318bad5e7a1bfbd026009c8bfb8d8f99ae6b6",
-                "reference": "d3d318bad5e7a1bfbd026009c8bfb8d8f99ae6b6",
+                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/4d5d331bf731e0aedbc6b2f5e61135b7b7996a72",
+                "reference": "4d5d331bf731e0aedbc6b2f5e61135b7b7996a72",
                 "shasum": ""
             },
             "require": {
@@ -1416,7 +1469,7 @@
                 "shim"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-mbstring/tree/v1.38.2"
+                "source": "https://github.com/symfony/polyfill-mbstring/tree/v1.43.0"
             },
             "funding": [
                 {
@@ -1436,20 +1489,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-05-27T06:59:30+00:00"
+            "time": "2026-09-24T15:19:04+00:00"
         },
         {
             "name": "symfony/polyfill-php80",
-            "version": "v1.37.0",
+            "version": "v1.43.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-php80.git",
-                "reference": "dfb55726c3a76ea3b6459fcfda1ec2d80a682411"
+                "reference": "9c6a5d6b01ca51d486c813e9a9c0ed55f208bb74"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-php80/zipball/dfb55726c3a76ea3b6459fcfda1ec2d80a682411",
-                "reference": "dfb55726c3a76ea3b6459fcfda1ec2d80a682411",
+                "url": "https://api.github.com/repos/symfony/polyfill-php80/zipball/9c6a5d6b01ca51d486c813e9a9c0ed55f208bb74",
+                "reference": "9c6a5d6b01ca51d486c813e9a9c0ed55f208bb74",
                 "shasum": ""
             },
             "require": {
@@ -1500,7 +1553,7 @@
                 "shim"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-php80/tree/v1.37.0"
+                "source": "https://github.com/symfony/polyfill-php80/tree/v1.43.0"
             },
             "funding": [
                 {
@@ -1520,20 +1573,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-04-10T16:19:22+00:00"
+            "time": "2026-09-25T15:50:05+00:00"
         },
         {
             "name": "symfony/polyfill-php83",
-            "version": "v1.41.0",
+            "version": "v1.43.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-php83.git",
-                "reference": "5ea99087fb99c273a9b9236ed4c31e78b16103c6"
+                "reference": "80ccff923a8d61f73ebe9da0aa94e25232f004ce"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-php83/zipball/5ea99087fb99c273a9b9236ed4c31e78b16103c6",
-                "reference": "5ea99087fb99c273a9b9236ed4c31e78b16103c6",
+                "url": "https://api.github.com/repos/symfony/polyfill-php83/zipball/80ccff923a8d61f73ebe9da0aa94e25232f004ce",
+                "reference": "80ccff923a8d61f73ebe9da0aa94e25232f004ce",
                 "shasum": ""
             },
             "require": {
@@ -1580,7 +1633,7 @@
                 "shim"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-php83/tree/v1.41.0"
+                "source": "https://github.com/symfony/polyfill-php83/tree/v1.43.0"
             },
             "funding": [
                 {
@@ -1600,7 +1653,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-07-01T12:47:55+00:00"
+            "time": "2026-09-25T15:50:05+00:00"
         },
         {
             "name": "vlucas/phpdotenv",
@@ -2671,16 +2724,16 @@
         },
         {
             "name": "composer/semver",
-            "version": "3.4.4",
+            "version": "3.5.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/semver.git",
-                "reference": "198166618906cb2de69b95d7d47e5fa8aa1b2b95"
+                "reference": "528948210cc46f967a4b98e83b19e76f2b504993"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/semver/zipball/198166618906cb2de69b95d7d47e5fa8aa1b2b95",
-                "reference": "198166618906cb2de69b95d7d47e5fa8aa1b2b95",
+                "url": "https://api.github.com/repos/composer/semver/zipball/528948210cc46f967a4b98e83b19e76f2b504993",
+                "reference": "528948210cc46f967a4b98e83b19e76f2b504993",
                 "shasum": ""
             },
             "require": {
@@ -2722,7 +2775,7 @@
                     "homepage": "http://robbast.nl"
                 }
             ],
-            "description": "Semver library that offers utilities, version constraint parsing and validation.",
+            "description": "Version comparison library that offers utilities, version constraint parsing and validation.",
             "keywords": [
                 "semantic",
                 "semver",
@@ -2732,7 +2785,7 @@
             "support": {
                 "irc": "ircs://irc.libera.chat:6697/composer",
                 "issues": "https://github.com/composer/semver/issues",
-                "source": "https://github.com/composer/semver/tree/3.4.4"
+                "source": "https://github.com/composer/semver/tree/3.5.1"
             },
             "funding": [
                 {
@@ -2744,7 +2797,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-08-20T19:15:30+00:00"
+            "time": "2026-10-05T13:12:12+00:00"
         },
         {
             "name": "composer/xdebug-handler",
@@ -3481,6 +3534,348 @@
                 }
             ],
             "time": "2025-04-29T08:19:52+00:00"
+        },
+        {
+            "name": "internal/container",
+            "version": "1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-internal/container.git",
+                "reference": "a1a0cc23601c4d09bc21511cbccba8653069d50c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-internal/container/zipball/a1a0cc23601c4d09bc21511cbccba8653069d50c",
+                "reference": "a1a0cc23601c4d09bc21511cbccba8653069d50c",
+                "shasum": ""
+            },
+            "require": {
+                "internal/destroy": "^1.0",
+                "php": ">=8.1",
+                "psr/container": "1 - 2",
+                "yiisoft/injector": "^1.2"
+            },
+            "provide": {
+                "psr/container-implementation": "1.0 - 2.0"
+            },
+            "require-dev": {
+                "bamarni/composer-bin-plugin": "^1.8",
+                "llm/skills": "^1.12",
+                "revolt/event-loop": "^1.0",
+                "roxblnfk/unpoly": "^1.8",
+                "testo/codecov": "^0.2.1",
+                "testo/fiber": "^0.1.3",
+                "testo/testo": "^0.10.46"
+            },
+            "type": "library",
+            "extra": {
+                "bamarni-bin": {
+                    "bin-links": true,
+                    "forward-command": false,
+                    "target-directory": "tools"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Internal\\Container\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Aleksei Gagarin",
+                    "homepage": "https://github.com/roxblnfk"
+                }
+            ],
+            "description": "Lightweight PSR-11 container for CLI tools: autowiring, scopes, inflectors and explicit destruction without a DI framework.",
+            "keywords": [
+                "Autowiring",
+                "PSR-11",
+                "cli",
+                "console",
+                "container",
+                "dependency injection"
+            ],
+            "support": {
+                "issues": "https://github.com/php-internal/container/issues",
+                "source": "https://github.com/php-internal/container/tree/1.1.0"
+            },
+            "funding": [
+                {
+                    "url": "https://boosty.to/roxblnfk",
+                    "type": "boosty"
+                }
+            ],
+            "time": "2026-09-08T09:20:40+00:00"
+        },
+        {
+            "name": "internal/destroy",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-internal/destroy.git",
+                "reference": "93068c4f7da218034f5373e31407f564b74b4a06"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-internal/destroy/zipball/93068c4f7da218034f5373e31407f564b74b4a06",
+                "reference": "93068c4f7da218034f5373e31407f564b74b4a06",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.1"
+            },
+            "require-dev": {
+                "buggregator/trap": "^1.10",
+                "phpunit/phpunit": "^10.5",
+                "spiral/code-style": "^2.2.2",
+                "ta-tikoma/phpunit-architecture-test": "^0.8.4",
+                "vimeo/psalm": "^6.10"
+            },
+            "suggest": {
+                "ext-simplexml": "to support XML configs parsing"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Internal\\Destroy\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Aleksei Gagarin (roxblnfk)",
+                    "homepage": "https://github.com/roxblnfk"
+                }
+            ],
+            "keywords": [
+                "download binaries",
+                "memory"
+            ],
+            "support": {
+                "issues": "https://github.com/php-internal/destroy/issues",
+                "source": "https://github.com/php-internal/destroy/tree/1.0.0"
+            },
+            "funding": [
+                {
+                    "url": "https://patreon.com/roxblnfk",
+                    "type": "patreon"
+                }
+            ],
+            "time": "2025-09-08T14:29:16+00:00"
+        },
+        {
+            "name": "internal/dload",
+            "version": "1.19.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-internal/dload.git",
+                "reference": "9c4c18ceb96e11b893bfbdd3e39ef5fe32c8a2f9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-internal/dload/zipball/9c4c18ceb96e11b893bfbdd3e39ef5fe32c8a2f9",
+                "reference": "9c4c18ceb96e11b893bfbdd3e39ef5fe32c8a2f9",
+                "shasum": ""
+            },
+            "require": {
+                "internal/container": "^1.0",
+                "internal/destroy": "^1.0",
+                "internal/path": "^1.2",
+                "internal/toml": "^1.0.3",
+                "nyholm/psr7": "^1.8",
+                "php": ">=8.2",
+                "psr/container": "1 - 2",
+                "psr/http-client": "^1.0",
+                "react/async": "^3.2 || ^4.3",
+                "react/promise": "^2.10 || ^3.2",
+                "symfony/console": "^6.4 || ^7 || ^8",
+                "symfony/http-client": "^6.4 || ^7 || ^8"
+            },
+            "require-dev": {
+                "buggregator/trap": "^1.15",
+                "composer/semver": "^3.4",
+                "dereuromark/composer-prefer-lowest": "^0.1.10",
+                "llm/skills": "^1.9",
+                "roxblnfk/unpoly": "^1.8.1",
+                "spiral/code-style": "^2.3.1",
+                "testo/bridge-mockery": "^0.1.2",
+                "testo/bridge-rector": "^0.2.4",
+                "testo/testo": "^0.10.46",
+                "vimeo/psalm": "^6.10 || ^7.0"
+            },
+            "suggest": {
+                "ext-simplexml": "to support XML configs parsing"
+            },
+            "bin": [
+                "bin/dload"
+            ],
+            "type": "library",
+            "extra": {
+                "skills": {
+                    "source": "skills"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Internal\\DLoad\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Aleksei Gagarin (roxblnfk)",
+                    "homepage": "https://github.com/roxblnfk"
+                }
+            ],
+            "description": "Downloads binaries.",
+            "keywords": [
+                "download binaries",
+                "downloader"
+            ],
+            "support": {
+                "issues": "https://github.com/php-internal/dload/issues",
+                "source": "https://github.com/php-internal/dload/tree/1.19.0"
+            },
+            "funding": [
+                {
+                    "url": "https://boosty.to/roxblnfk",
+                    "type": "boosty"
+                }
+            ],
+            "time": "2026-10-12T19:28:10+00:00"
+        },
+        {
+            "name": "internal/path",
+            "version": "1.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-internal/path.git",
+                "reference": "e59fc0d530891483b5f47417ccfecb3d02b2218c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-internal/path/zipball/e59fc0d530891483b5f47417ccfecb3d02b2218c",
+                "reference": "e59fc0d530891483b5f47417ccfecb3d02b2218c",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.1"
+            },
+            "require-dev": {
+                "buggregator/trap": "^1.15",
+                "infection/infection": "^0.33.2",
+                "llm/skills": "^1.7",
+                "roxblnfk/unpoly": "^1.8.1",
+                "spiral/code-style": "^2.3.1",
+                "testo/bridge-infection": "^0.1.6",
+                "testo/testo": "^0.10.21",
+                "vimeo/psalm": "^7"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Internal\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Aleksei Gagarin",
+                    "homepage": "https://github.com/roxblnfk"
+                }
+            ],
+            "description": "Type-safe, immutable file path library with cross-platform support and automatic normalization.",
+            "keywords": [
+                "cross-platform",
+                "file",
+                "filepath",
+                "filesystem",
+                "helper",
+                "path",
+                "unix",
+                "windows"
+            ],
+            "support": {
+                "issues": "https://github.com/php-internal/path/issues",
+                "source": "https://github.com/php-internal/path/tree/1.4.0"
+            },
+            "funding": [
+                {
+                    "url": "https://boosty.to/roxblnfk",
+                    "type": "boosty"
+                }
+            ],
+            "time": "2026-09-08T10:51:37+00:00"
+        },
+        {
+            "name": "internal/toml",
+            "version": "1.1.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-internal/toml.git",
+                "reference": "b0e077794a179b0a39a4fba84185762a4425c472"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-internal/toml/zipball/b0e077794a179b0a39a4fba84185762a4425c472",
+                "reference": "b0e077794a179b0a39a4fba84185762a4425c472",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.1"
+            },
+            "require-dev": {
+                "buggregator/trap": "^1.13",
+                "internal/dload": "^1.11",
+                "phpunit/phpunit": "^10.5",
+                "spiral/code-style": "^2.3.0",
+                "ta-tikoma/phpunit-architecture-test": "^0.8.5",
+                "vimeo/psalm": "^6.13"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Internal\\Toml\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Aleksei Gagarin (roxblnfk)",
+                    "homepage": "https://github.com/roxblnfk"
+                }
+            ],
+            "description": "TOML 1.0/1.1 parser and encoder",
+            "keywords": [
+                "toml"
+            ],
+            "support": {
+                "issues": "https://github.com/php-internal/toml/issues",
+                "source": "https://github.com/php-internal/toml/tree/1.1.3"
+            },
+            "funding": [
+                {
+                    "url": "https://boosty.to/roxblnfk",
+                    "type": "boosty"
+                }
+            ],
+            "time": "2026-06-28T16:28:37+00:00"
         },
         {
             "name": "justinrainbow/json-schema",
@@ -5035,6 +5430,359 @@
             "time": "2022-11-25T14:36:26+00:00"
         },
         {
+            "name": "psr/http-client",
+            "version": "1.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/http-client.git",
+                "reference": "bb5906edc1c324c9a05aa0873d40117941e5fa90"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig/http-client/zipball/bb5906edc1c324c9a05aa0873d40117941e5fa90",
+                "reference": "bb5906edc1c324c9a05aa0873d40117941e5fa90",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.0 || ^8.0",
+                "psr/http-message": "^1.0 || ^2.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\Http\\Client\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "https://www.php-fig.org/"
+                }
+            ],
+            "description": "Common interface for HTTP clients",
+            "homepage": "https://github.com/php-fig/http-client",
+            "keywords": [
+                "http",
+                "http-client",
+                "psr",
+                "psr-18"
+            ],
+            "support": {
+                "source": "https://github.com/php-fig/http-client"
+            },
+            "time": "2023-09-23T14:17:50+00:00"
+        },
+        {
+            "name": "react/async",
+            "version": "v4.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/reactphp/async.git",
+                "reference": "635d50e30844a484495713e8cb8d9e079c0008a5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/reactphp/async/zipball/635d50e30844a484495713e8cb8d9e079c0008a5",
+                "reference": "635d50e30844a484495713e8cb8d9e079c0008a5",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.1",
+                "react/event-loop": "^1.2",
+                "react/promise": "^3.2 || ^2.8 || ^1.2.1"
+            },
+            "require-dev": {
+                "phpstan/phpstan": "1.10.39",
+                "phpunit/phpunit": "^9.6"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/functions_include.php"
+                ],
+                "psr-4": {
+                    "React\\Async\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Christian Lück",
+                    "email": "christian@clue.engineering",
+                    "homepage": "https://clue.engineering/"
+                },
+                {
+                    "name": "Cees-Jan Kiewiet",
+                    "email": "reactphp@ceesjankiewiet.nl",
+                    "homepage": "https://wyrihaximus.net/"
+                },
+                {
+                    "name": "Jan Sorgalla",
+                    "email": "jsorgalla@gmail.com",
+                    "homepage": "https://sorgalla.com/"
+                },
+                {
+                    "name": "Chris Boden",
+                    "email": "cboden@gmail.com",
+                    "homepage": "https://cboden.dev/"
+                }
+            ],
+            "description": "Async utilities and fibers for ReactPHP",
+            "keywords": [
+                "async",
+                "reactphp"
+            ],
+            "support": {
+                "issues": "https://github.com/reactphp/async/issues",
+                "source": "https://github.com/reactphp/async/tree/v4.3.0"
+            },
+            "funding": [
+                {
+                    "url": "https://opencollective.com/reactphp",
+                    "type": "open_collective"
+                }
+            ],
+            "time": "2024-06-04T14:40:02+00:00"
+        },
+        {
+            "name": "react/event-loop",
+            "version": "v1.6.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/reactphp/event-loop.git",
+                "reference": "ba276bda6083df7e0050fd9b33f66ad7a4ac747a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/reactphp/event-loop/zipball/ba276bda6083df7e0050fd9b33f66ad7a4ac747a",
+                "reference": "ba276bda6083df7e0050fd9b33f66ad7a4ac747a",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.6 || ^5.7 || ^4.8.36"
+            },
+            "suggest": {
+                "ext-pcntl": "For signal handling support when using the StreamSelectLoop"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "React\\EventLoop\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Christian Lück",
+                    "email": "christian@clue.engineering",
+                    "homepage": "https://clue.engineering/"
+                },
+                {
+                    "name": "Cees-Jan Kiewiet",
+                    "email": "reactphp@ceesjankiewiet.nl",
+                    "homepage": "https://wyrihaximus.net/"
+                },
+                {
+                    "name": "Jan Sorgalla",
+                    "email": "jsorgalla@gmail.com",
+                    "homepage": "https://sorgalla.com/"
+                },
+                {
+                    "name": "Chris Boden",
+                    "email": "cboden@gmail.com",
+                    "homepage": "https://cboden.dev/"
+                }
+            ],
+            "description": "ReactPHP's core reactor event loop that libraries can use for evented I/O.",
+            "keywords": [
+                "asynchronous",
+                "event-loop"
+            ],
+            "support": {
+                "issues": "https://github.com/reactphp/event-loop/issues",
+                "source": "https://github.com/reactphp/event-loop/tree/v1.6.0"
+            },
+            "funding": [
+                {
+                    "url": "https://opencollective.com/reactphp",
+                    "type": "open_collective"
+                }
+            ],
+            "time": "2025-11-17T20:46:25+00:00"
+        },
+        {
+            "name": "react/promise",
+            "version": "v3.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/reactphp/promise.git",
+                "reference": "23444f53a813a3296c1368bb104793ce8d88f04a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/reactphp/promise/zipball/23444f53a813a3296c1368bb104793ce8d88f04a",
+                "reference": "23444f53a813a3296c1368bb104793ce8d88f04a",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1.0"
+            },
+            "require-dev": {
+                "phpstan/phpstan": "1.12.28 || 1.4.10",
+                "phpunit/phpunit": "^9.6 || ^7.5"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/functions_include.php"
+                ],
+                "psr-4": {
+                    "React\\Promise\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jan Sorgalla",
+                    "email": "jsorgalla@gmail.com",
+                    "homepage": "https://sorgalla.com/"
+                },
+                {
+                    "name": "Christian Lück",
+                    "email": "christian@clue.engineering",
+                    "homepage": "https://clue.engineering/"
+                },
+                {
+                    "name": "Cees-Jan Kiewiet",
+                    "email": "reactphp@ceesjankiewiet.nl",
+                    "homepage": "https://wyrihaximus.net/"
+                },
+                {
+                    "name": "Chris Boden",
+                    "email": "cboden@gmail.com",
+                    "homepage": "https://cboden.dev/"
+                }
+            ],
+            "description": "A lightweight implementation of CommonJS Promises/A for PHP",
+            "keywords": [
+                "promise",
+                "promises"
+            ],
+            "support": {
+                "issues": "https://github.com/reactphp/promise/issues",
+                "source": "https://github.com/reactphp/promise/tree/v3.3.0"
+            },
+            "funding": [
+                {
+                    "url": "https://opencollective.com/reactphp",
+                    "type": "open_collective"
+                }
+            ],
+            "time": "2025-08-19T18:57:03+00:00"
+        },
+        {
+            "name": "roadrunner/cli",
+            "version": "3.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/roadrunner-php/cli.git",
+                "reference": "b570bde6d534b1b90a182f4bf6fca8120836594f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/roadrunner-php/cli/zipball/b570bde6d534b1b90a182f4bf6fca8120836594f",
+                "reference": "b570bde6d534b1b90a182f4bf6fca8120836594f",
+                "shasum": ""
+            },
+            "require": {
+                "composer-runtime-api": "^2.0",
+                "composer/semver": "^3.4",
+                "internal/dload": "^1.19.0",
+                "php": ">=8.2",
+                "roadrunner/worker": "^3.8",
+                "symfony/console": "^6.4 || ^7.0 || ^8.0",
+                "symfony/http-client": "^6.4.17 || ^7.2 || ^8.0",
+                "symfony/yaml": "^5.4.49 || ^6.4.17 || ^7.2 || ^8.0"
+            },
+            "replace": {
+                "spiral/roadrunner-cli": "self.version"
+            },
+            "require-dev": {
+                "jetbrains/phpstorm-attributes": "^1.2",
+                "spiral/code-style": "^2.3.1",
+                "spiral/dumper": "^3.3",
+                "testo/testo": "^0.10.55",
+                "vimeo/psalm": "^6 || ^7"
+            },
+            "bin": [
+                "bin/rr"
+            ],
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Spiral\\RoadRunner\\Console\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Anton Titov",
+                    "homepage": "https://github.com/wolfy-j"
+                },
+                {
+                    "name": "RoadRunner Community",
+                    "homepage": "https://github.com/roadrunner-server/roadrunner/graphs/contributors"
+                }
+            ],
+            "description": "RoadRunner command-line tool: downloads the RoadRunner binary and generates its configuration",
+            "homepage": "https://roadrunner.dev/",
+            "keywords": [
+                "binary",
+                "cli",
+                "console",
+                "download",
+                "installer",
+                "roadrunner"
+            ],
+            "support": {
+                "chat": "https://discord.gg/V6EK4he",
+                "docs": "https://docs.roadrunner.dev/docs/general/install",
+                "issues": "https://github.com/roadrunner-server/roadrunner/issues",
+                "source": "https://github.com/roadrunner-php/cli"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/sponsors/roadrunner-server",
+                    "type": "github"
+                }
+            ],
+            "time": "2026-10-12T19:31:50+00:00"
+        },
+        {
             "name": "sanmai/di-container",
             "version": "0.2",
             "source": {
@@ -6483,520 +7231,6 @@
             "time": "2025-12-15T09:00:41+00:00"
         },
         {
-            "name": "spiral/core",
-            "version": "3.17.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/spiral/core.git",
-                "reference": "ca5b8483610aed0c82d4f06bc7907e191d88aca0"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/spiral/core/zipball/ca5b8483610aed0c82d4f06bc7907e191d88aca0",
-                "reference": "ca5b8483610aed0c82d4f06bc7907e191d88aca0",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=8.1",
-                "psr/container": "^1.1|^2.0",
-                "spiral/security": "^3.17.2"
-            },
-            "provide": {
-                "psr/container-implementation": "^1.1|^2.0"
-            },
-            "require-dev": {
-                "mockery/mockery": "^1.6.12",
-                "phpunit/phpunit": "^10.5.41",
-                "vimeo/psalm": "^6.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "3.17.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Spiral\\Core\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Anton Titov (wolfy-j)",
-                    "email": "wolfy-j@spiralscout.com"
-                },
-                {
-                    "name": "Pavel Butchnev (butschster)",
-                    "homepage": "https://github.com/butschster"
-                },
-                {
-                    "name": "Aleksei Gagarin (roxblnfk)",
-                    "homepage": "https://github.com/roxblnfk"
-                },
-                {
-                    "name": "Maksim Smakouz (msmakouz)",
-                    "email": "maksim.smakouz@spiralscout.com"
-                }
-            ],
-            "description": "IoC container, IoC scopes, factory, memory, configuration interfaces",
-            "homepage": "https://spiral.dev",
-            "support": {
-                "issues": "https://github.com/spiral/framework/issues",
-                "source": "https://github.com/spiral/core"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/sponsors/spiral",
-                    "type": "github"
-                }
-            ],
-            "time": "2026-08-05T12:07:26+00:00"
-        },
-        {
-            "name": "spiral/hmvc",
-            "version": "3.17.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/spiral/hmvc.git",
-                "reference": "11111aac577f3d7ccc9bbe8b79dc6441fd21b9c5"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/spiral/hmvc/zipball/11111aac577f3d7ccc9bbe8b79dc6441fd21b9c5",
-                "reference": "11111aac577f3d7ccc9bbe8b79dc6441fd21b9c5",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=8.1",
-                "psr/event-dispatcher": "^1.0",
-                "spiral/core": "^3.17.2",
-                "spiral/interceptors": "^3.17.2"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^10.5.41",
-                "spiral/testing": "^2.12",
-                "vimeo/psalm": "^6.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "3.17.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Spiral\\Core\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Anton Titov (wolfy-j)",
-                    "email": "wolfy-j@spiralscout.com"
-                },
-                {
-                    "name": "Pavel Butchnev (butschster)",
-                    "homepage": "https://github.com/butschster"
-                },
-                {
-                    "name": "Aleksei Gagarin (roxblnfk)",
-                    "homepage": "https://github.com/roxblnfk"
-                },
-                {
-                    "name": "Maksim Smakouz (msmakouz)",
-                    "email": "maksim.smakouz@spiralscout.com"
-                }
-            ],
-            "description": "HMVC Core and Controllers",
-            "homepage": "https://spiral.dev",
-            "support": {
-                "chat": "https://discord.gg/V6EK4he",
-                "docs": "https://spiral.dev/docs",
-                "issues": "https://github.com/spiral/framework/issues",
-                "source": "https://github.com/spiral/hmvc"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/sponsors/spiral",
-                    "type": "github"
-                }
-            ],
-            "time": "2026-08-05T12:00:27+00:00"
-        },
-        {
-            "name": "spiral/interceptors",
-            "version": "3.17.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/spiral/interceptors.git",
-                "reference": "ea0e10ecb2c6058541a2b097a660fd2b532a5ffa"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/spiral/interceptors/zipball/ea0e10ecb2c6058541a2b097a660fd2b532a5ffa",
-                "reference": "ea0e10ecb2c6058541a2b097a660fd2b532a5ffa",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=8.1",
-                "psr/event-dispatcher": "^1.0",
-                "spiral/core": "^3.17.2"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^10.5.41",
-                "spiral/testing": "^2.12",
-                "vimeo/psalm": "^6.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "3.17.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Spiral\\Interceptors\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Anton Titov (wolfy-j)",
-                    "email": "wolfy-j@spiralscout.com"
-                },
-                {
-                    "name": "Pavel Butchnev (butschster)",
-                    "homepage": "https://github.com/butschster"
-                },
-                {
-                    "name": "Aleksei Gagarin (roxblnfk)",
-                    "homepage": "https://github.com/roxblnfk"
-                },
-                {
-                    "name": "Maksim Smakouz (msmakouz)",
-                    "email": "maksim.smakouz@spiralscout.com"
-                }
-            ],
-            "description": "Spiral Interceptors",
-            "homepage": "https://spiral.dev",
-            "keywords": [
-                "aop",
-                "interceptors",
-                "spiral"
-            ],
-            "support": {
-                "chat": "https://discord.gg/V6EK4he",
-                "docs": "https://spiral.dev/docs",
-                "issues": "https://github.com/spiral/framework/issues",
-                "source": "https://github.com/spiral/interceptors"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/sponsors/spiral",
-                    "type": "github"
-                }
-            ],
-            "time": "2026-08-05T12:00:37+00:00"
-        },
-        {
-            "name": "spiral/logger",
-            "version": "3.17.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/spiral/logger.git",
-                "reference": "671d91a3427019a14670b614474cc57156d5cd69"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/spiral/logger/zipball/671d91a3427019a14670b614474cc57156d5cd69",
-                "reference": "671d91a3427019a14670b614474cc57156d5cd69",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=8.1",
-                "psr/log": "1 - 3",
-                "spiral/core": "^3.17.2"
-            },
-            "require-dev": {
-                "mockery/mockery": "^1.6.12",
-                "phpunit/phpunit": "^10.5.41",
-                "vimeo/psalm": "^6.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "3.17.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Spiral\\Logger\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Anton Titov (wolfy-j)",
-                    "email": "wolfy-j@spiralscout.com"
-                },
-                {
-                    "name": "Pavel Butchnev (butschster)",
-                    "homepage": "https://github.com/butschster"
-                },
-                {
-                    "name": "Aleksei Gagarin (roxblnfk)",
-                    "homepage": "https://github.com/roxblnfk"
-                },
-                {
-                    "name": "Maksim Smakouz (msmakouz)",
-                    "email": "maksim.smakouz@spiralscout.com"
-                }
-            ],
-            "description": "LogFactory and global log listeners",
-            "homepage": "https://spiral.dev",
-            "support": {
-                "issues": "https://github.com/spiral/framework/issues",
-                "source": "https://github.com/spiral/logger"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/sponsors/spiral",
-                    "type": "github"
-                }
-            ],
-            "time": "2026-08-05T12:05:38+00:00"
-        },
-        {
-            "name": "spiral/roadrunner-cli",
-            "version": "v2.7.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/roadrunner-php/cli.git",
-                "reference": "54909d3fff22d34d1a6e894785f3df9dca0e2e8c"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/roadrunner-php/cli/zipball/54909d3fff22d34d1a6e894785f3df9dca0e2e8c",
-                "reference": "54909d3fff22d34d1a6e894785f3df9dca0e2e8c",
-                "shasum": ""
-            },
-            "require": {
-                "composer/semver": "^3.4",
-                "ext-json": "*",
-                "php": ">=8.1",
-                "spiral/roadrunner-worker": "^2 || ^3",
-                "spiral/tokenizer": "^2.13 || ^3.15",
-                "symfony/console": "^5.3 || ^6.0 || ^7.0 || ^8.0",
-                "symfony/http-client": "^4.4.51 || ^5.4.49 || ^6.4.17 || ^7.2 || ^8.0",
-                "symfony/yaml": "^5.4.49 || ^6.4.17 || ^7.2 || ^8.0"
-            },
-            "require-dev": {
-                "jetbrains/phpstorm-attributes": "^1.2",
-                "spiral/code-style": "^2.2.2",
-                "spiral/dumper": "^3.3",
-                "vimeo/psalm": "^6.0"
-            },
-            "bin": [
-                "bin/rr"
-            ],
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Spiral\\RoadRunner\\Console\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Anton Titov (wolfy-j)",
-                    "email": "wolfy-j@spiralscout.com"
-                },
-                {
-                    "name": "RoadRunner Community",
-                    "homepage": "https://github.com/spiral/roadrunner/graphs/contributors"
-                }
-            ],
-            "description": "RoadRunner: Command Line Interface",
-            "homepage": "https://roadrunner.dev",
-            "support": {
-                "chat": "https://discord.gg/V6EK4he",
-                "docs": "https://docs.roadrunner.dev",
-                "issues": "https://github.com/roadrunner-server/roadrunner/issues",
-                "source": "https://github.com/roadrunner-php/cli/tree/v2.7.2"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/sponsors/roadrunner-server",
-                    "type": "github"
-                }
-            ],
-            "time": "2025-12-14T19:18:46+00:00"
-        },
-        {
-            "name": "spiral/security",
-            "version": "3.17.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/spiral/security.git",
-                "reference": "aefd664efb3e618d0a57c967546f1ad5d9784580"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/spiral/security/zipball/aefd664efb3e618d0a57c967546f1ad5d9784580",
-                "reference": "aefd664efb3e618d0a57c967546f1ad5d9784580",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=8.1",
-                "spiral/core": "^3.17.2",
-                "spiral/hmvc": "^3.17.2"
-            },
-            "require-dev": {
-                "mockery/mockery": "^1.6.12",
-                "phpunit/phpunit": "^10.5.41",
-                "spiral/console": "^3.17.2",
-                "vimeo/psalm": "^6.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "3.17.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Spiral\\Security\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Anton Titov (wolfy-j)",
-                    "email": "wolfy-j@spiralscout.com"
-                },
-                {
-                    "name": "Pavel Butchnev (butschster)",
-                    "homepage": "https://github.com/butschster"
-                },
-                {
-                    "name": "Aleksei Gagarin (roxblnfk)",
-                    "homepage": "https://github.com/roxblnfk"
-                },
-                {
-                    "name": "Maksim Smakouz (msmakouz)",
-                    "email": "maksim.smakouz@spiralscout.com"
-                }
-            ],
-            "description": "Spiral, RBAC security layer",
-            "homepage": "https://spiral.dev",
-            "support": {
-                "issues": "https://github.com/spiral/framework/issues",
-                "source": "https://github.com/spiral/security"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/sponsors/spiral",
-                    "type": "github"
-                }
-            ],
-            "time": "2026-08-05T12:07:41+00:00"
-        },
-        {
-            "name": "spiral/tokenizer",
-            "version": "3.17.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/spiral/tokenizer.git",
-                "reference": "fcb7a36672d7aef900dc36377ff997ba6f8cde0b"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/spiral/tokenizer/zipball/fcb7a36672d7aef900dc36377ff997ba6f8cde0b",
-                "reference": "fcb7a36672d7aef900dc36377ff997ba6f8cde0b",
-                "shasum": ""
-            },
-            "require": {
-                "ext-tokenizer": "*",
-                "php": ">=8.1",
-                "spiral/core": "^3.17.2",
-                "spiral/logger": "^3.17.2",
-                "symfony/finder": "^6.4.30 || ^7.4 || ^8.0"
-            },
-            "require-dev": {
-                "mockery/mockery": "^1.6.12",
-                "phpunit/phpunit": "^10.5.41",
-                "spiral/attributes": "^2.8|^3.0",
-                "spiral/boot": "^3.17.2",
-                "spiral/files": "^3.17.2",
-                "vimeo/psalm": "^6.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "3.17.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Spiral\\Tokenizer\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Anton Titov (wolfy-j)",
-                    "email": "wolfy-j@spiralscout.com"
-                },
-                {
-                    "name": "Pavel Butchnev (butschster)",
-                    "homepage": "https://github.com/butschster"
-                },
-                {
-                    "name": "Aleksei Gagarin (roxblnfk)",
-                    "homepage": "https://github.com/roxblnfk"
-                },
-                {
-                    "name": "Maksim Smakouz (msmakouz)",
-                    "email": "maksim.smakouz@spiralscout.com"
-                }
-            ],
-            "description": "Static Analysis: Class and Invocation locators",
-            "homepage": "https://spiral.dev",
-            "support": {
-                "issues": "https://github.com/spiral/framework/issues",
-                "source": "https://github.com/spiral/tokenizer"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/sponsors/spiral",
-                    "type": "github"
-                }
-            ],
-            "time": "2026-08-05T12:05:29+00:00"
-        },
-        {
             "name": "staabm/side-effects-detector",
             "version": "1.0.5",
             "source": {
@@ -7050,16 +7284,16 @@
         },
         {
             "name": "symfony/console",
-            "version": "v8.1.6",
+            "version": "v8.1.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
-                "reference": "eb7d9957d66739649e931ce7a9d05dab69f8abac"
+                "reference": "630e74196a2635ec0f06c12bd3fb47cfedf85157"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/console/zipball/eb7d9957d66739649e931ce7a9d05dab69f8abac",
-                "reference": "eb7d9957d66739649e931ce7a9d05dab69f8abac",
+                "url": "https://api.github.com/repos/symfony/console/zipball/630e74196a2635ec0f06c12bd3fb47cfedf85157",
+                "reference": "630e74196a2635ec0f06c12bd3fb47cfedf85157",
                 "shasum": ""
             },
             "require": {
@@ -7126,7 +7360,7 @@
                 "terminal"
             ],
             "support": {
-                "source": "https://github.com/symfony/console/tree/v8.1.6"
+                "source": "https://github.com/symfony/console/tree/v8.1.9"
             },
             "funding": [
                 {
@@ -7146,7 +7380,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-08-25T14:18:42+00:00"
+            "time": "2026-10-12T19:11:16+00:00"
         },
         {
             "name": "symfony/deprecation-contracts",
@@ -7360,16 +7594,16 @@
         },
         {
             "name": "symfony/http-client",
-            "version": "v8.1.4",
+            "version": "v8.1.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-client.git",
-                "reference": "f8d33e21c749e931a33c98b1f6a8ea378b29627a"
+                "reference": "f892301df77ac25613b19fc2450139c950d1368a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-client/zipball/f8d33e21c749e931a33c98b1f6a8ea378b29627a",
-                "reference": "f8d33e21c749e931a33c98b1f6a8ea378b29627a",
+                "url": "https://api.github.com/repos/symfony/http-client/zipball/f892301df77ac25613b19fc2450139c950d1368a",
+                "reference": "f892301df77ac25613b19fc2450139c950d1368a",
                 "shasum": ""
             },
             "require": {
@@ -7433,7 +7667,7 @@
                 "http"
             ],
             "support": {
-                "source": "https://github.com/symfony/http-client/tree/v8.1.4"
+                "source": "https://github.com/symfony/http-client/tree/v8.1.9"
             },
             "funding": [
                 {
@@ -7453,20 +7687,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-08-06T21:11:24+00:00"
+            "time": "2026-10-13T15:31:40+00:00"
         },
         {
             "name": "symfony/http-client-contracts",
-            "version": "v3.7.1",
+            "version": "v3.7.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-client-contracts.git",
-                "reference": "41fc42d276aeff21192465331ebbab7d83a743c0"
+                "reference": "35be0019e2c2c9fba80f9dc033290a5240f7b44f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-client-contracts/zipball/41fc42d276aeff21192465331ebbab7d83a743c0",
-                "reference": "41fc42d276aeff21192465331ebbab7d83a743c0",
+                "url": "https://api.github.com/repos/symfony/http-client-contracts/zipball/35be0019e2c2c9fba80f9dc033290a5240f7b44f",
+                "reference": "35be0019e2c2c9fba80f9dc033290a5240f7b44f",
                 "shasum": ""
             },
             "require": {
@@ -7515,7 +7749,7 @@
                 "standards"
             ],
             "support": {
-                "source": "https://github.com/symfony/http-client-contracts/tree/v3.7.1"
+                "source": "https://github.com/symfony/http-client-contracts/tree/v3.7.3"
             },
             "funding": [
                 {
@@ -7535,20 +7769,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-06-05T06:23:12+00:00"
+            "time": "2026-08-04T08:41:16+00:00"
         },
         {
             "name": "symfony/polyfill-intl-grapheme",
-            "version": "v1.41.0",
+            "version": "v1.43.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-intl-grapheme.git",
-                "reference": "bb899c1db0aa8127dc3afe8cda4a67eb24915f8d"
+                "reference": "5cac8f4db97208823aa353f59a01faad2da52c75"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-intl-grapheme/zipball/bb899c1db0aa8127dc3afe8cda4a67eb24915f8d",
-                "reference": "bb899c1db0aa8127dc3afe8cda4a67eb24915f8d",
+                "url": "https://api.github.com/repos/symfony/polyfill-intl-grapheme/zipball/5cac8f4db97208823aa353f59a01faad2da52c75",
+                "reference": "5cac8f4db97208823aa353f59a01faad2da52c75",
                 "shasum": ""
             },
             "require": {
@@ -7597,7 +7831,7 @@
                 "shim"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-intl-grapheme/tree/v1.41.0"
+                "source": "https://github.com/symfony/polyfill-intl-grapheme/tree/v1.43.0"
             },
             "funding": [
                 {
@@ -7617,20 +7851,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-07-28T08:25:59+00:00"
+            "time": "2026-09-25T15:46:47+00:00"
         },
         {
             "name": "symfony/polyfill-intl-normalizer",
-            "version": "v1.42.0",
+            "version": "v1.43.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-intl-normalizer.git",
-                "reference": "aa20edea75bd9c48cfecc8360922e5a6e5c44502"
+                "reference": "ebd57ccc7edb93d632e184efbe7693d2517bab3b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-intl-normalizer/zipball/aa20edea75bd9c48cfecc8360922e5a6e5c44502",
-                "reference": "aa20edea75bd9c48cfecc8360922e5a6e5c44502",
+                "url": "https://api.github.com/repos/symfony/polyfill-intl-normalizer/zipball/ebd57ccc7edb93d632e184efbe7693d2517bab3b",
+                "reference": "ebd57ccc7edb93d632e184efbe7693d2517bab3b",
                 "shasum": ""
             },
             "require": {
@@ -7682,7 +7916,7 @@
                 "shim"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-intl-normalizer/tree/v1.42.0"
+                "source": "https://github.com/symfony/polyfill-intl-normalizer/tree/v1.43.0"
             },
             "funding": [
                 {
@@ -7702,7 +7936,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-08-07T06:33:24+00:00"
+            "time": "2026-09-23T22:02:09+00:00"
         },
         {
             "name": "symfony/polyfill-php84",
@@ -7786,16 +8020,16 @@
         },
         {
             "name": "symfony/polyfill-php85",
-            "version": "v1.41.0",
+            "version": "v1.43.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-php85.git",
-                "reference": "255fab485aaa1006ed411040c42aecd7b5302d7a"
+                "reference": "86a42cbcc07adc331481a5ab310a4024bfc227f6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-php85/zipball/255fab485aaa1006ed411040c42aecd7b5302d7a",
-                "reference": "255fab485aaa1006ed411040c42aecd7b5302d7a",
+                "url": "https://api.github.com/repos/symfony/polyfill-php85/zipball/86a42cbcc07adc331481a5ab310a4024bfc227f6",
+                "reference": "86a42cbcc07adc331481a5ab310a4024bfc227f6",
                 "shasum": ""
             },
             "require": {
@@ -7842,7 +8076,7 @@
                 "shim"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-php85/tree/v1.41.0"
+                "source": "https://github.com/symfony/polyfill-php85/tree/v1.43.0"
             },
             "funding": [
                 {
@@ -7862,7 +8096,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-07-01T12:47:55+00:00"
+            "time": "2026-09-25T15:46:47+00:00"
         },
         {
             "name": "symfony/process",
@@ -8018,16 +8252,16 @@
         },
         {
             "name": "symfony/string",
-            "version": "v8.1.2",
+            "version": "v8.1.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/string.git",
-                "reference": "286a76b7255e5cc4bf0101a0bc5388ecf1c38ccc"
+                "reference": "07fb208558f941eab50ec49c89c2a6a93fb11f01"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/string/zipball/286a76b7255e5cc4bf0101a0bc5388ecf1c38ccc",
-                "reference": "286a76b7255e5cc4bf0101a0bc5388ecf1c38ccc",
+                "url": "https://api.github.com/repos/symfony/string/zipball/07fb208558f941eab50ec49c89c2a6a93fb11f01",
+                "reference": "07fb208558f941eab50ec49c89c2a6a93fb11f01",
                 "shasum": ""
             },
             "require": {
@@ -8084,7 +8318,7 @@
                 "utf8"
             ],
             "support": {
-                "source": "https://github.com/symfony/string/tree/v8.1.2"
+                "source": "https://github.com/symfony/string/tree/v8.1.9"
             },
             "funding": [
                 {
@@ -8104,7 +8338,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-07-28T07:35:25+00:00"
+            "time": "2026-10-03T15:16:03+00:00"
         },
         {
             "name": "symfony/yaml",
@@ -8558,6 +8792,82 @@
                 "source": "https://github.com/webmozarts/assert/tree/2.4.1"
             },
             "time": "2026-06-15T15:31:57+00:00"
+        },
+        {
+            "name": "yiisoft/injector",
+            "version": "1.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/yiisoft/injector.git",
+                "reference": "d3f718256b734933670ad11143cca724d340fc90"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/yiisoft/injector/zipball/d3f718256b734933670ad11143cca724d340fc90",
+                "reference": "d3f718256b734933670ad11143cca724d340fc90",
+                "shasum": ""
+            },
+            "require": {
+                "php": "7.4 - 8.5"
+            },
+            "require-dev": {
+                "bamarni/composer-bin-plugin": "^1.8.3",
+                "maglnet/composer-require-checker": "^3.8 || ^4.2",
+                "phpbench/phpbench": "^1.1",
+                "phpunit/phpunit": "^9.5",
+                "psr/container": "^1.0 || ^2.0",
+                "rector/rector": "^2.0.10",
+                "spatie/phpunit-watcher": "^1.23",
+                "yiisoft/test-support": "^1.4 || ^3.1"
+            },
+            "suggest": {
+                "psr/container": "For automatic resolving of dependencies"
+            },
+            "type": "library",
+            "extra": {
+                "bamarni-bin": {
+                    "bin-links": true,
+                    "forward-command": true,
+                    "target-directory": "tools"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Yiisoft\\Injector\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "description": "PSR-11 compatible injector. Executes a callable and makes an instances by injecting dependencies from a given DI container.",
+            "homepage": "https://www.yiiframework.com/",
+            "keywords": [
+                "PSR-11",
+                "dependency injection",
+                "di",
+                "injector",
+                "reflection"
+            ],
+            "support": {
+                "chat": "https://t.me/yii3en",
+                "forum": "https://www.yiiframework.com/forum/",
+                "irc": "ircs://irc.libera.chat:6697/yii",
+                "issues": "https://github.com/yiisoft/injector/issues?state=open",
+                "source": "https://github.com/yiisoft/injector",
+                "wiki": "https://www.yiiframework.com/wiki/"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/sponsors/yiisoft",
+                    "type": "github"
+                },
+                {
+                    "url": "https://opencollective.com/yiisoft",
+                    "type": "opencollective"
+                }
+            ],
+            "time": "2025-12-01T11:14:17+00:00"
         }
     ],
     "aliases": [],

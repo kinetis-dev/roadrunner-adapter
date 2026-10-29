@@ -29,7 +29,7 @@ use RuntimeException;
  * {@see isBinaryAvailable()} is the one thing every test using this
  * driver checks first: it needs a real `rr` binary at
  * {@see binaryPath()}, fetched via `vendor/bin/rr get-binary`
- * (spiral/roadrunner-cli, a require-dev dependency), which is not
+ * (roadrunner/cli, a require-dev dependency), which is not
  * present by default and is never committed.
  */
 final class RoadRunnerDriver implements RuntimeAdapterDriver
@@ -293,19 +293,6 @@ final class RoadRunnerDriver implements RuntimeAdapterDriver
     {
         // A plain listener; the conformance server terminates no TLS.
         return 'http';
-    }
-
-    #[\Override]
-    public function preservesNumericHeaderNames(): bool
-    {
-        // spiral/roadrunner-http's own request decoding drops it before
-        // this adapter exists: PHP coerces a numeric string array key to
-        // an int, and HttpWorker::filterHeaders()' !is_string($key)
-        // filter then deletes it. Confirmed by reading that source
-        // directly. Recovering it would mean reimplementing that
-        // library's own JSON and protobuf request decoding here; see
-        // RoadRunnerAdapter's class docblock and docs/runtime-adapters.md.
-        return false;
     }
 
     #[\Override]

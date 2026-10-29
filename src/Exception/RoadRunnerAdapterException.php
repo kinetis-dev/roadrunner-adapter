@@ -31,7 +31,7 @@ final class RoadRunnerAdapterException extends RuntimeException
         return new self(
             'This RoadRunner worker did not report whether it parsed the request '
             . 'body itself, so http.raw_body cannot be verified. kinetis/roadrunner-adapter '
-            . 'requires a spiral/roadrunner-http version that sets the rr_parsed_body '
+            . 'requires a roadrunner/http version that sets the rr_parsed_body '
             . 'request attribute.',
         );
     }

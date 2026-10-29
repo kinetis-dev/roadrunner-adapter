@@ -41,7 +41,7 @@ use Throwable;
  * fields it extracted.
  *
  * Lives in its own package rather than in core because it needs
- * `spiral/roadrunner-http`, and core carries only the two adapters that
+ * `roadrunner/http`, and core carries only the two adapters that
  * must always work with no dependencies at all.
  *
  * `Worker::create()`'s default `interceptSideEffects: true` installs a
@@ -59,32 +59,20 @@ use Throwable;
  * {@see handle()} is abandoned before the refusal goes back, so the
  * request scope behind it is released on the request that created it.
  *
- * Two environment-specific header differences from
- * `SuperglobalsBridge`/`BrefLambdaAdapter`, both of them
- * `spiral/roadrunner-http`'s own behavior:
+ * A repeated header arrives as several separate array values, not one
+ * RFC 9110 comma-joined string — `roadrunner/http`'s own behavior,
+ * unlike `SuperglobalsBridge`/`BrefLambdaAdapter`.
+ * {@see foldRepeatedHeaders()} closes this, so every framework component
+ * downstream sees the same shape regardless of adapter.
  *
- * - A repeated header arrives as several separate array values, not one
- *   RFC 9110 comma-joined string — {@see foldRepeatedHeaders()} closes
- *   this, so every framework component downstream sees the same shape
- *   regardless of adapter.
- * - A purely-numeric header name is dropped before this class ever sees
- *   the request, and cannot be recovered from here. PHP coerces a
- *   numeric string array key (`"123"`) to an `int` one, and
- *   `HttpWorker::filterHeaders()` then removes it while parsing the
- *   request, before `PSR7Worker::mapRequest()` builds a PSR-7 object.
- *   Recovering it would mean reimplementing that library's own
- *   JSON/protobuf request decoding in this package instead of using
- *   `PSR7Worker`; see docs/runtime-adapters.md for the
- *   deployment-facing version of this limitation.
- *
- * Cookie order is not guaranteed either. RoadRunner's Go side
- * represents cookies as a `map[string]string` on the way to PHP, and Go
- * randomizes map iteration order by design, so a request's cookies can
- * arrive in a different order than the client sent them in.
- * `RoadRunnerDriver` declares both limitations and the shared
- * conformance suite asserts against that declaration — cookie names and
- * values on every run, the order only where an environment can keep it
- * — so the whole suite runs here unfiltered.
+ * Cookie order is not guaranteed. RoadRunner's Go side represents
+ * cookies as a `map[string]string` on the way to PHP, and Go randomizes
+ * map iteration order by design, so a request's cookies can arrive in a
+ * different order than the client sent them in. `RoadRunnerDriver`
+ * declares this and the shared conformance suite asserts against that
+ * declaration — cookie names and values on every run, the order only
+ * where an environment can keep it — so the whole suite runs here
+ * unfiltered.
  *
  * This adapter hands the body on raw; `Kinetis\Http\Form\FormLimits`
  * is applied by the Kernel's own `RequestBodyMiddleware`, the same
@@ -233,6 +221,9 @@ final class RoadRunnerAdapter implements RuntimeAdapterInterface
     private static function foldRepeatedHeaders(ServerRequestInterface $request): ServerRequestInterface
     {
         foreach ($request->getHeaders() as $name => $values) {
+            // A purely-numeric header name is an int key here.
+            $name = (string) $name;
+
             if (count($values) > 1) {
                 $separator = strcasecmp($name, 'Cookie') === 0 ? '; ' : ', ';
                 $request = $request->withHeader($name, implode($separator, $values));

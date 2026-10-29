@@ -76,11 +76,10 @@ ordinary one any client can send.
 Requires PHP 8.4+ and [`kinetis/framework`](https://github.com/kinetis-dev/framework). See
 [Runtime Adapters](https://kinetis.dev/docs/runtime-adapters.html) for
 the full reasoning — why `raw_body: true` and `max_request_size` matter,
-what's mapped and how, and the two environment-caused limitations (a
-purely-numeric header name; cookie order) that are upstream RoadRunner
-behavior rather than something this package's own code can recover from.
-Both are declared to the shared runtime conformance suite and asserted
-there in both directions, not skipped.
+what's mapped and how, and the one environment-caused limitation (cookie
+order) that is upstream RoadRunner behavior rather than something this
+package's own code can recover from. It is declared to the shared runtime
+conformance suite and asserted there in both directions, not skipped.
 
 ## License
 
