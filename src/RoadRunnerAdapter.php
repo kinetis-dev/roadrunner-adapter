@@ -81,7 +81,8 @@ use Throwable;
  * read the whole body into memory as one string by the time any PHP here
  * runs, so an undeclared-length (chunked) body has to be bounded by
  * RoadRunner's own `http.max_request_size`, which is required rather
- * than optional for exactly that reason. See docs/runtime-adapters.md's
+ * than optional for exactly that reason. See
+ * {@link https://kinetis.dev/docs/runtime-adapters.html}'s
  * "`http.max_request_size` is the real defense against an oversized
  * body" section, and
  * `RoadRunnerConformanceTest::test_an_oversized_chunked_body_is_rejected_by_road_runners_own_limit()`

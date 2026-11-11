@@ -14,7 +14,7 @@ final class RoadRunnerAdapterException extends RuntimeException
             'RoadRunner already parsed this form body itself before handing the '
             . 'request to PHP, which means http.raw_body: true is missing from the '
             . 'RoadRunner configuration. Set it in .rr.yaml — see the "Running under '
-            . 'RoadRunner" section of docs/runtime-adapters.md.',
+            . 'RoadRunner" section of https://kinetis.dev/docs/runtime-adapters.html',
         );
     }
 
