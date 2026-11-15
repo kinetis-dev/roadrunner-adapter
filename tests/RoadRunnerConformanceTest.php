@@ -110,6 +110,36 @@ final class RoadRunnerConformanceTest extends RuntimeAdapterConformanceTestCase
     }
 
     /**
+     * Work a request leaves on the event loop runs once that request has
+     * been answered, while `waitRequest()` would otherwise block with
+     * nothing turning the loop. The pool has one worker and no further
+     * request is sent while the test waits, so nothing else can run it.
+     */
+    public function test_work_queued_by_a_request_runs_when_it_ends_without_another_request(): void
+    {
+        $marker = bin2hex(random_bytes(16));
+        $driver = self::$driver ?? throw new LogicException('driver not started');
+
+        $outcome = $driver->dispatch(
+            new WireRequest(path: '/__conformance/queued-chain', queryString: "marker={$marker}"),
+            ResponseSpec::json(200, '{"ok":true}'),
+        );
+
+        self::assertNotInstanceOf(AdapterRejection::class, $outcome->response);
+        self::assertSame(204, $outcome->response->status);
+
+        $file = $driver->statePath("{$marker}.chain");
+        $deadline = microtime(true) + 2.0;
+
+        while (!is_file($file) && microtime(true) < $deadline) {
+            usleep(50_000);
+        }
+
+        self::assertFileExists($file, 'The chain the request queued never ran after it ended.');
+        unlink($file);
+    }
+
+    /**
      * The real-binary proof for {@see \Kinetis\RoadRunnerAdapter\RoadRunnerAdapter::assertRawBodyEnabled()}:
      * a deliberately misconfigured server (`raw_body: false`, RoadRunner's
      * own default) parses a form body itself, in Go, before this adapter

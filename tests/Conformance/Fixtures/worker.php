@@ -25,6 +25,7 @@ use Kinetis\Testing\Runtime\ObservedRequest;
 use Kinetis\Testing\Runtime\ResponseSpec;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Revolt\EventLoop;
 
 $config = Config::fromEnvironment();
 
@@ -51,6 +52,26 @@ $pipeline = new MiddlewarePipeline(
         }
 
         $stateDir = getenv('KINETIS_CONFORMANCE_STATE_DIR');
+
+        // Leaves a three-hop microtask chain on the event loop, the shape
+        // a cancelled HTTP connection's close takes, whose last hop writes
+        // {marker}.chain. RoadRunnerConformanceTest waits for that file
+        // without sending another request.
+        if ($request->getUri()->getPath() === '/__conformance/queued-chain') {
+            $marker = $request->getQueryParams()['marker'] ?? null;
+
+            if (!is_string($stateDir) || !is_string($marker) || preg_match('/^[0-9a-f]{32}$/', $marker) !== 1) {
+                throw new LogicException('queued-chain invoked without its state directory or marker');
+            }
+
+            $file = "{$stateDir}/{$marker}.chain";
+            EventLoop::queue(static fn () => EventLoop::queue(static fn () => EventLoop::queue(
+                static fn () => file_put_contents($file, 'ran'),
+            )));
+
+            return new \Nyholm\Psr7\Response(204);
+        }
+
         $id = $request->getHeaderLine('X-Conformance-Id');
 
         if (!is_string($stateDir) || $stateDir === '' || preg_match('/^[0-9a-f]{32}$/', $id) !== 1) {

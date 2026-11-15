@@ -55,6 +55,12 @@ final class RoadRunnerDriver implements RuntimeAdapterDriver
         return new self('127.0.0.1:' . FreePort::reserve(), $stateDir, self::binaryPath());
     }
 
+    /** A path in the state directory the worker writes to. */
+    public function statePath(string $name): string
+    {
+        return "{$this->stateDir}/{$name}";
+    }
+
     /**
      * The real `rr` binary this driver needs, fetched via
      * `vendor/bin/rr get-binary --location .` from this package's own

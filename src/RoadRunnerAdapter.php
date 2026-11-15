@@ -13,6 +13,7 @@ use Kinetis\Runtime\StreamableResponseInterface;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Revolt\EventLoop;
 use Spiral\RoadRunner\Http\PSR7Worker;
 use Spiral\RoadRunner\Http\Request as RoadRunnerRequest;
 use Spiral\RoadRunner\Worker;
@@ -131,11 +132,34 @@ final class RoadRunnerAdapter implements RuntimeAdapterInterface
                 // risks, since it costs AppScope's warm state until the
                 // supervisor respawns it.
                 $worker->error($e::class . ': ' . $e->getMessage());
+                self::settleRequest();
 
                 continue;
             }
 
             $psr7Worker->respond($response);
+            self::settleRequest();
+        }
+    }
+
+    /**
+     * Runs what the loop already holds for the finished request, such as a
+     * cancelled connection's close, and never waits for an empty loop.
+     */
+    private static function settleRequest(): void
+    {
+        try {
+            $suspension = EventLoop::getSuspension();
+            EventLoop::defer($suspension->resume(...));
+            $suspension->suspend();
+        } catch (Throwable $e) {
+            error_log(sprintf(
+                'Event loop work left by the finished request failed: %s: %s in %s:%d',
+                $e::class,
+                $e->getMessage(),
+                $e->getFile(),
+                $e->getLine(),
+            ));
         }
     }
 
