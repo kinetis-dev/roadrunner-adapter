@@ -13,6 +13,7 @@ use Kinetis\Http\TrustedProxies;
 use Kinetis\RoadRunnerAdapter\Exception\RoadRunnerAdapterException;
 use Kinetis\RoadRunnerAdapter\RoadRunnerAdapter;
 use Kinetis\Runtime\RuntimeAdapterInterface;
+use Kinetis\Runtime\UnobservableClientConnection;
 use Nyholm\Psr7\Response;
 use Nyholm\Psr7\ServerRequest;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -46,6 +47,14 @@ final class RoadRunnerAdapterTest extends TestCase
     public function test_is_persistent(): void
     {
         self::assertTrue((new RoadRunnerAdapter(self::proxies()))->isPersistent());
+    }
+
+    public function test_never_reports_the_client_gone(): void
+    {
+        $connection = (new RoadRunnerAdapter(self::proxies()))->clientConnection();
+
+        self::assertInstanceOf(UnobservableClientConnection::class, $connection);
+        self::assertFalse($connection->isGone());
     }
 
     /**

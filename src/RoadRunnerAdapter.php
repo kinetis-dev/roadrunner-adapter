@@ -8,8 +8,10 @@ use Kinetis\Http\Exception\UntrustedForwardedHeaderException;
 use Kinetis\Http\Responses\ErrorResponse;
 use Kinetis\Http\TrustedProxies;
 use Kinetis\RoadRunnerAdapter\Exception\RoadRunnerAdapterException;
+use Kinetis\Runtime\ClientConnectionInterface;
 use Kinetis\Runtime\RuntimeAdapterInterface;
 use Kinetis\Runtime\StreamableResponseInterface;
+use Kinetis\Runtime\UnobservableClientConnection;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -167,6 +169,16 @@ final class RoadRunnerAdapter implements RuntimeAdapterInterface
     public function isPersistent(): bool
     {
         return true;
+    }
+
+    /**
+     * Never reports the client gone: this adapter emits no stream, so a
+     * request has no write that could observe a departure.
+     */
+    #[\Override]
+    public function clientConnection(): ClientConnectionInterface
+    {
+        return new UnobservableClientConnection();
     }
 
     /**
