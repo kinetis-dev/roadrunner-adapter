@@ -73,7 +73,7 @@ A directly reachable `rr serve` with no policy configured reads it from
 nobody, which is the safe default for that deployment — the header is an
 ordinary one any client can send.
 
-Requires PHP 8.4+ and [`kinetis/framework`](https://github.com/kinetis-dev/framework). See
+Requires PHP 8.4 or 8.5 and [`kinetis/framework`](https://github.com/kinetis-dev/framework). See
 [Runtime Adapters](https://kinetis.dev/docs/runtime-adapters.html) for
 the full reasoning — why `raw_body: true` and `max_request_size` matter,
 what's mapped and how, and the one environment-caused limitation (cookie
